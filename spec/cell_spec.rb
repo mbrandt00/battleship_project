@@ -20,14 +20,19 @@ RSpec.describe Cell do
     it 'will return if there is a ship object on it' do
       expect(@cell.ship).to be(nil)
     end
-    xit 'will return true if there is a ship on it' do
-    # fill in once we have #place_ship method.
+    it 'will return false if there is a ship on it' do
+    @cell.place_ship(@cruiser)
+    expect(@cell.empty?).to be(false) 
     end
   end
 
     it 'will return boolean if cell is empty' do
       expect(@cell.empty?).to be(true)
-    end 
+    end
+
+    it 'will return ship object if placed in cell' do
+      expect(@cell.place_ship(@cruiser)).to eq(@cruiser)
+    end
 
 
 end
