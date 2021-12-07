@@ -49,15 +49,21 @@ RSpec.describe Cell do
 
     describe 'render' do
       it "'is initialized to be '.'" do
-        expect(@cell.cell_state).to eq('.')
+        expect(@cell.render).to eq('.')
       end
       it "changes the status to miss if fired upon and cell does not contain ship" do
         @cell.fire_upon
         expect(@cell.empty?).to be(true) #passes
         expect(@cell.fired_upon?).to be(true)
-        @cell.render
-        expect(@cell.cell_state).to eq('M')
+        expect(@cell.render).to eq('M')
       end
+      it 'will recognize a hit' do
+        @cell.place_ship(@cruiser)
+        @cell.fire_upon
+        @cell.render
+        expect(@cell.cell_state).to eq('H')
+      end
+
     end
 
 
