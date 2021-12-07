@@ -46,9 +46,9 @@ class Cell
     elsif fired_upon? && @ship.sunk?
       @cell_state = 'X'
     elsif !fired_upon? && !empty?
-      @cell_state == 'S'
+      @cell_state = 'S'
     elsif empty? && !fired_upon?
-      @cell_state == '.'
+      @cell_state = '.'
     end
     return @cell_state
   end
