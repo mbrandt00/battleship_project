@@ -61,9 +61,25 @@ RSpec.describe Cell do
         @cell.place_ship(@cruiser)
         @cell.fire_upon
         @cell.render
-        expect(@cell.cell_state).to eq('H')
+        expect(@cell.empty?).to eq(false)
+        expect(@cruiser.sunk?).to eq(false)
+        expect(@cell.render).to eq('H')
       end
+      it 'will recognize where a ship is placed even if it has not been fired upon' do
+        @cell.place_ship(@cruiser)
 
+        expect(@cell.empty?).to eq(false)
+        expect(@cell.render).to eq('S')
+      end
+      it 'will recognize if a ship is sunk' do
+        @cell.place_ship(@cruiser)
+        @cell.fire_upon
+        @cruiser.hit
+        @cruiser.hit
+        expect(@cell.empty?).to eq(false)
+        expect(@cruiser.sunk?).to eq(true)
+        expect(@cell.render). to eq('X')
+      end
     end
 
 
