@@ -22,7 +22,7 @@ RSpec.describe Cell do
     end
     it 'will return false if there is a ship on it' do
     @cell.place_ship(@cruiser)
-    expect(@cell.empty?).to be(false) 
+    expect(@cell.empty?).to be(false)
     end
   end
 
@@ -32,6 +32,11 @@ RSpec.describe Cell do
 
     it 'will return ship object if placed in cell' do
       expect(@cell.place_ship(@cruiser)).to eq(@cruiser)
+    end
+
+    it 'will return if the ship has been fired upon' do
+      @cell.place_ship(@cruiser)
+      expect(@cell.fired_upon?).to eq(false)
     end
 
 
