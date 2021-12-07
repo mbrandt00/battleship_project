@@ -47,13 +47,18 @@ RSpec.describe Cell do
       expect(@cell.ship.health).to eq(2)
     end
 
-    
-
-
-
-
-
-
+    describe 'render' do
+      it "'is initialized to be '.'" do
+        expect(@cell.cell_state).to eq('.')
+      end
+      it "changes the status to miss if fired upon and cell does not contain ship" do
+        @cell.fire_upon
+        expect(@cell.empty?).to be(true) #passes
+        expect(@cell.fired_upon?).to be(true)
+        @cell.render
+        expect(@cell.cell_state).to eq('M')
+      end
+    end
 
 
 
