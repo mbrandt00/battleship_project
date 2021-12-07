@@ -5,8 +5,8 @@ class Cell
   def initialize (coordinate)
     @coordinate = coordinate
     @ship = ship
+    @cell_fired_on = false
     @cell_state = '.'
-    @cell_fired_on = false 
   end
 
   def ship
@@ -41,10 +41,24 @@ class Cell
   def render
     if empty? && fired_upon?
       @cell_state = 'M'
-    elsif empty? == false && fired_upon? && @ship.sunk != true
-      @cell_state == 'H'
-    elsif sunk?
-      @cell_state == 'X'
+    elsif fired_upon? && !@ship.sunk?
+      @cell_state = 'H'
+    elsif fired_upon? && @ship.sunk?
+      @cell_state = 'X'
+    elsif !fired_upon? && !empty?
+      @cell_state == 'S'
+    elsif empty? && !fired_upon?
+      @cell_state == '.'
     end
+    return @cell_state
   end
+  #   if empty? && fired_upon?
+  #     @cell_state = 'M'
+  #   elsif empty? == false && fired_upon? && @ship.sunk? != true
+  #     @cell_state = 'H'
+  #   elsif @ship.sunk?
+  #     @cell_state = 'X'
+  #   end
+  #   return @cell_state
+  # end
 end
