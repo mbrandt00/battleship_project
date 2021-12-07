@@ -39,5 +39,19 @@ RSpec.describe Cell do
       expect(@cell.fired_upon?).to eq(false)
     end
 
+    it 'cell being fired upon will lower health of ship' do
+      @cell.place_ship(@cruiser)
+      @cell.fire_upon
+      expect(@cell.fired_upon?).to eq(true)
+    end
+
+
+
+
+
+
+
+
+
 
 end
