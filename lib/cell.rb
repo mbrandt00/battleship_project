@@ -11,8 +11,16 @@ class Cell
   end
 
   def empty?
-    true if @ship == nil
-  end 
+    if @ship == nil
+      true
+    else
+      false
+    end 
+  end
+
+  def place_ship(ship)
+    @ship = ship
+  end
 
 
 end
