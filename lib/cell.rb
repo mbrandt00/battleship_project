@@ -1,5 +1,6 @@
 class Cell
-  attr_reader :coordinate, :cell_status, :ship
+  attr_reader :coordinate, :cell_status
+  attr_accessor :ship
 
   def initialize (coordinate)
     @coordinate = coordinate
@@ -28,5 +29,9 @@ class Cell
     else
       true
     end
+  end
+
+  def fire_upon
+    @ship.health = @ship.health - 1
   end
 end
