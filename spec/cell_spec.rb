@@ -16,6 +16,18 @@ RSpec.describe Cell do
     expect(@cell.coordinate).to eq("B4")
   end
 
+  describe 'Ship' do
+    it 'will return if there is a ship object on it' do
+      expect(@cell.ship).to be(nil)
+    end
+    xit 'will return true if there is a ship on it' do
+    # fill in once we have #place_ship method.
+    end
+  end
+
+    it 'will return boolean if cell is empty' do
+      expect(@cell.empty?).to be(true)
+    end 
 
 
 end
