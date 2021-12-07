@@ -1,10 +1,12 @@
 class Cell
-  attr_reader :coordinate, :cell_status
-  attr_accessor :ship
+  attr_reader :coordinate
+  attr_accessor :ship, :cell_state, :cell_fired_on
 
   def initialize (coordinate)
     @coordinate = coordinate
     @ship = ship
+    @cell_state = '.'
+    @cell_fired_on = false 
   end
 
   def ship
@@ -24,14 +26,25 @@ class Cell
   end
 
   def fired_upon?
-    if @ship.health == @ship.length
-      false
-    else
-      true
-    end
+    @cell_fired_on
   end
 
   def fire_upon
-    @ship.health = @ship.health - 1
+    @cell_fired_on = true
+    if !empty?
+      @ship.hit
+    end
+  end
+
+
+
+  def render
+    if empty? && fired_upon?
+      @cell_state = 'M'
+    elsif empty? == false && fired_upon? && @ship.sunk != true
+      @cell_state == 'H'
+    elsif sunk?
+      @cell_state == 'X'
+    end
   end
 end
