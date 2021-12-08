@@ -42,7 +42,7 @@ class Board
   def valid_placement?(ship, array_of_coordinates)
     if ( array_of_coordinates.all? { |coordinate| self.valid_coordinate?(coordinate) } &&
       ship.length <= array_of_coordinates.length &&
-    consecutive?)
+    consecutive?(array_of_coordinates))
       true
     else
       false
