@@ -22,12 +22,14 @@ class Board
   end
 
   def valid_coordinate?(coordinate)
-    cells.each do |cell_name, cell_value|
-      if cell_name == coordinate
-        return true
-      else
-        return false
-      end
+    cells.any? {|key, value| key == coordinate}
+  end
+
+  def valid_placement?(ship, array_of_coordinates)
+    if array_of_coordinates.all? { |coordinate| self.valid_coordinate?(coordinate) } && ship.length <= array_of_coordinates.length
+      true
+    else
+      false
     end
   end
 
