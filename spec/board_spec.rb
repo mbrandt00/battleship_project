@@ -6,7 +6,8 @@ require 'pry'
 
 RSpec.describe Board do
   before(:each) do
-    @cruiser=Ship.new("cruiser", 3)
+    @cruiser=Ship.new("Cruiser", 3)
+    @submarine = Ship.new('Submarine', 2)
     @board = Board.new()
     @board.cells
   end
@@ -21,8 +22,16 @@ RSpec.describe Board do
 
   it 'will test for a valid coordinate' do
     expect(@board.valid_coordinate?('A1')).to be(true)
-    expect(@board.valid_coordinate?('F7')).to be(false) 
+    expect(@board.valid_coordinate?('F7')).to be(false)
   end
+
+  describe 'valid_placement' do
+    it 'will test if ship can be placed without regard for consecutive elements' do
+      expect(@board.valid_placement?(@cruiser, ['A1', 'A2', 'A3'])).to be(true)
+      expect(@board.valid_placement?(@cruiser, ['A1', 'A2', 'A3', 'A4'])).to be(true)
+      expect(@board.valid_placement?(@cruiser, ['A3', 'A4', 'A5'])).to be(false)
+    end
+  end 
 
 
 end
