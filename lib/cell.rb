@@ -52,13 +52,5 @@ class Cell
     end
     return @cell_state
   end
-  #   if empty? && fired_upon?
-  #     @cell_state = 'M'
-  #   elsif empty? == false && fired_upon? && @ship.sunk? != true
-  #     @cell_state = 'H'
-  #   elsif @ship.sunk?
-  #     @cell_state = 'X'
-  #   end
-  #   return @cell_state
-  # end
+
 end
