@@ -25,13 +25,20 @@ RSpec.describe Board do
     expect(@board.valid_coordinate?('F7')).to be(false)
   end
 
-  describe 'valid_placement' do
-    it 'will test if ship can be placed without regard for consecutive elements' do
-      expect(@board.valid_placement?(@cruiser, ['A1', 'A2', 'A3'])).to be(true)
-      expect(@board.valid_placement?(@cruiser, ['A1', 'A2', 'A3', 'A4'])).to be(true)
-      expect(@board.valid_placement?(@cruiser, ['A3', 'A4', 'A5'])).to be(false)
-    end
-  end 
+  it 'will detect if array is consecutive' do
+    expect(@board.consecutive?(['A1', 'A2', 'A3'])).to be(true)
+    expect(@board.consecutive?(['A1', 'A3', 'A2'])).to be(false)
+    expect(@board.consecutive?(['B1', 'A2', 'A3'])).to be(false)
+  end
+
+  xit 'will test if ship can be placed without regard for consecutive elements' do
+    expect(@board.valid_placement?(@cruiser, ['A1', 'A2', 'A3'])).to be(true)
+    expect(@board.valid_placement?(@cruiser, ['A3', 'A4', 'A5'])).to be(false)
+  end
+
+
+
+
 
 
 end
