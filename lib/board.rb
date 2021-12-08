@@ -20,4 +20,14 @@ class Board
     'D3' => Cell.new("D3"),
     'D4' => Cell.new("D4") }
   end
+
+  def valid_coordinate?(coordinate)
+    cells.values.each do |cell| #maybe find or a different enumerable would be better.
+      if cell.coordinate == coordinate
+        return true
+      else
+        return false
+      end
+    end
+  end
 end
