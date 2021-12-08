@@ -22,12 +22,13 @@ class Board
   end
 
   def valid_coordinate?(coordinate)
-    cells.values.each do |cell| #maybe find or a different enumerable would be better.
-      if cell.coordinate == coordinate
+    cells.each do |cell_name, cell_value|
+      if cell_name == coordinate
         return true
       else
         return false
       end
     end
   end
+
 end
