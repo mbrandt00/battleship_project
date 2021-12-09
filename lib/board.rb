@@ -25,17 +25,21 @@ class Board
     cells.any? {|key, value| key == coordinate}
   end
 
-  def consecutive?(array_of_coordinates)
-    first_element = array_of_coordinates[0][0]
-    if array_of_coordinates.all? {|coordinate| first_element == coordinate[0]} #horizontal check
-      array_of_coordinates.map! {|coordinate| coordinate[1].to_i}
-      sorted_array = array_of_coordinates.sort
-      return (sorted_array.first..sorted_array.last).to_a == array_of_coordinates
-    # elsif #vertical check?
-    else
-      false
+  def consecutive?(array_of_coordinates) #[‘B3’, ‘B4’, ‘B2’]
+      first_element_horizontal = array_of_coordinates[0][0]
+      first_element_vertical = array_of_coordinates[0][1] #looks into first element of array at first letter of string #B
+      if array_of_coordinates.all? {|coordinate| first_element_horizontal == coordinate[0]} #horizontal check
+        array_of_coordinates.map! {|coordinate| coordinate[1].to_i} # convertes [‘A3’, ‘A2’] -> [3,2] [3,4,2]
+        sorted_array = array_of_coordinates.sort # converts [3,2] -> [2,3] [2,3,4]
+        return (sorted_array.first..sorted_array.last).to_a == array_of_coordinates  #(2..4) = (2,3,4,5).to_a -> [2,3,4,5]
+      elsif array_of_coordinates.all? {|coordinate| first_element_vertical == coordinate[1]}
+        sorted_array = array_of_coordinates.sort
+        return ((sorted_array.first..sorted_array.last).to_a == array_of_coordinates || (sorted_array.first..sorted_array.last).to_a.reverse == array_of_coordinates)
+      else
+        false
+      end
     end
-  end
+
 
 
 
@@ -48,5 +52,4 @@ class Board
       false
     end
   end
-
 end
