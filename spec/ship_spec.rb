@@ -27,9 +27,13 @@ RSpec.describe Ship do
 
   it 'will lower the health of ship if hit' do
     @cruiser.hit
+    expect(@cruiser.sunk?).to be(false)
     expect(@cruiser.health).to eq(2)
     @cruiser.hit
     expect(@cruiser.health).to eq(1)
+    @cruiser.hit
+    expect(@cruiser.health).to eq(0)
+    expect(@cruiser.sunk?).to be(true)
   end
 
   it 'will sink the ship if hit the same amount as its health' do
