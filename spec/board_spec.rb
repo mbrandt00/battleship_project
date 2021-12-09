@@ -46,6 +46,21 @@ RSpec.describe Board do
       expect(@board.valid_placement?(@cruiser, ['A1', 'A2'])).to be(false)
       expect(@board.valid_placement?(@submarine, ['A1', 'A2'])).to be(true)
     end
+
+    it 'will make sure coordinates are consecutive for vertical' do
+      # binding.pry
+      expect(@board.consecutive?(['A1', 'B1', 'C1'])).to be(true)
+    end
+
+    it 'will make sure coordinates are consecutive for vertical in reverse' do
+      # binding.pry
+      expect(@board.consecutive?(['C1', 'B1', 'A1'])).to be(true)
+    end
+
+    it 'will make sure ship is not placed diagonal' do
+      expect(@board.valid_placement?(@cruiser, ['A1', 'B2', 'C3'])).to be(false)
+      expect(@board.valid_placement?(@submarine, ['C2', 'D3'])).to be(false)
+    end
   end
 
 
