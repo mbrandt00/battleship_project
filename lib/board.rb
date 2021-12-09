@@ -2,7 +2,7 @@ class Board
   attr_accessor :cells_hash
 
   def initialize()
-    @cells_hash = {}
+    @cells_hash = cells_hash
   end
 
   def cells # method that adds cells 4x4
@@ -29,14 +29,16 @@ class Board
   end
 
   def consecutive?(array_of_coordinates) #[‘B3’, ‘B4’, ‘B2’]
-      first_element_horizontal = array_of_coordinates[0][0]
-      first_element_vertical = array_of_coordinates[0][1] #looks into first element of array at first letter of string #B
-      if array_of_coordinates.all? {|coordinate| first_element_horizontal == coordinate[0]} #horizontal check
-        array_of_coordinates.map! {|coordinate| coordinate[1].to_i} # convertes [‘A3’, ‘A2’] -> [3,2] [3,4,2]
-        sorted_array = array_of_coordinates.sort # converts [3,2] -> [2,3] [2,3,4]
-        return (sorted_array.first..sorted_array.last).to_a == array_of_coordinates  #(2..4) = (2,3,4,5).to_a -> [2,3,4,5]
-      elsif array_of_coordinates.all? {|coordinate| first_element_vertical == coordinate[1]}
-        return (array_of_coordinates == array_of_coordinates.sort || array_of_coordinates == array_of_coordinates.sort.reverse)
+    coords = array_of_coordinates
+      first_element_horizontal = coords[0][0]
+      first_element_vertical = coords[0][1]
+       #looks into first element of array at first letter of string #B
+      if coords.all? {|coordinate| first_element_horizontal == coordinate[0]} #horizontal check
+        coords.map {|coordinate| coordinate[1].to_i} # convertes [‘A3’, ‘A2’] -> [3,2] [3,4,2]
+        sorted_array = coords.sort # converts [3,2] -> [2,3] [2,3,4]
+        return (sorted_array.first..sorted_array.last).to_a == coords  #(2..4) = (2,3,4,5).to_a -> [2,3,4,5]
+      elsif coords.all? {|coordinate| first_element_vertical == coordinate[1]}
+        return (coords == coords.sort || coords == coords.sort.reverse)
       else
         false
       end
@@ -53,10 +55,11 @@ class Board
   end
 
   def place(ship, array_of_coordinates)
-    if valid_placement?(ship, array_of_coordinates)
-      # array_of_coordinates.each do |element|
-      # @cells_hash[element] = @cells_hash.place_ship(ship)
+    if valid_placement?(ship, array_of_coordinates) #this is the problem #consecutive changes
+      array_of_coordinates.each do |coordinate|
+        @cells_hash[coordinate].place_ship(ship)
       end
     end
-  end
+    end
+
 end
