@@ -68,4 +68,9 @@ RSpec.describe Board do
     end
   end
 
+  it 'will place a ship on a passed in array' do
+    @board.place(@cruiser, ['A1', 'A2', 'A3'])
+
+    expect(@board.cells_hash['A1'].ship).to eq(@cruiser)
+  end
 end
