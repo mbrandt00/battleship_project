@@ -24,7 +24,7 @@ RSpec.describe Board do
     expect(@board.valid_coordinate?('A1')).to be(true)
     expect(@board.valid_coordinate?('F7')).to be(false)
   end
-  
+
   describe 'consecutive?' do
     it 'will detect if array is consecutive' do
       expect(@board.consecutive?(['A1', 'A2', 'A3'])).to be(true)
@@ -62,11 +62,10 @@ RSpec.describe Board do
       expect(@board.valid_placement?(@cruiser, ['A1', 'B2', 'C3'])).to be(false)
       expect(@board.valid_placement?(@submarine, ['C2', 'D3'])).to be(false)
     end
+
+    it 'will make sure vertical ship placements are valid' do
+      expect(@board.valid_placement?(@cruiser, ["B1", "C1", "D1"])).to be(true)
+    end
   end
-
-
-
-
-
 
 end
