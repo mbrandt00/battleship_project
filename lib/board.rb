@@ -1,9 +1,12 @@
 class Board
+  attr_accessor :cells_hash
+
   def initialize()
+    @cells_hash = {}
   end
 
   def cells # method that adds cells 4x4
-    {'A1' => Cell.new("A1"),
+    @cells_hash = {'A1' => Cell.new("A1"),
     'A2' => Cell.new("A2"),
     'A3' => Cell.new("A3"),
     'A4' => Cell.new("A4"),
@@ -42,10 +45,18 @@ class Board
   def valid_placement?(ship, array_of_coordinates)
     if ( array_of_coordinates.all? { |coordinate| self.valid_coordinate?(coordinate) } &&
       ship.length <= array_of_coordinates.length &&
-    consecutive?(array_of_coordinates))
+      consecutive?(array_of_coordinates))
       true
     else
       false
+    end
+  end
+
+  def place(ship, array_of_coordinates)
+    if valid_placement?(ship, array_of_coordinates)
+      # array_of_coordinates.each do |element|
+      # @cells_hash[element] = @cells_hash.place_ship(ship)
+      end
     end
   end
 end
