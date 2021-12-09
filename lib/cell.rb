@@ -36,8 +36,6 @@ class Cell
     end
   end
 
-
-
   def render
     if empty? && fired_upon?
       @cell_state = 'M'
