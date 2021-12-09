@@ -33,15 +33,11 @@ class Board
         sorted_array = array_of_coordinates.sort # converts [3,2] -> [2,3] [2,3,4]
         return (sorted_array.first..sorted_array.last).to_a == array_of_coordinates  #(2..4) = (2,3,4,5).to_a -> [2,3,4,5]
       elsif array_of_coordinates.all? {|coordinate| first_element_vertical == coordinate[1]}
-        sorted_array = array_of_coordinates.sort
-        return ((sorted_array.first..sorted_array.last).to_a == array_of_coordinates || (sorted_array.first..sorted_array.last).to_a.reverse == array_of_coordinates)
+        return (array_of_coordinates == array_of_coordinates.sort || array_of_coordinates == array_of_coordinates.sort.reverse)
       else
         false
       end
     end
-
-
-
 
   def valid_placement?(ship, array_of_coordinates)
     if ( array_of_coordinates.all? { |coordinate| self.valid_coordinate?(coordinate) } &&
