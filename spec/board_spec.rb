@@ -82,7 +82,14 @@ RSpec.describe Board do
     expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to be(false)
   end
 
-  it 'will render a header' do
-    expect(@board.render).to be(3)
+  describe 'render' do
+  it 'have the keys of the hash be equal to the rows' do
+    array = []
+    rows_range = ("A"..(("A".ord)+ @board.rows - 1).chr)
+    rows_range.each {|letter| array.push letter}
+    @board.render
+    expect(@board.cell_rendered_hash.keys).to eq(array)
+  end
+  #it 'will render ships' do
   end
 end
