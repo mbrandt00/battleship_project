@@ -1,12 +1,13 @@
 class Board
 
-  attr_accessor :cells_hash, :rows, :columns, :rows_range
+  attr_accessor :cells_hash, :rows, :columns, :rows_range, :cell_rendered_hash
 
 
   def initialize(rows = 4, columns = 4)
     @cells_hash = cells_hash
     @rows = rows
     @columns = columns
+    @cell_rendered_hash = Hash.new {|h,k| h[k] = []}
   end
 
   def cells
@@ -62,27 +63,14 @@ class Board
   end
 
   def render
-
-    # print @columns_range.rjust(10)
-    # (1..@columns).map{|number| number.to_s}.join(” “) + ” \n”
-    # return "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
-    my_hash = Hash.new {|h,k| h[k] = []}
     @rows_range.each do |row|
       @cells_hash.each do |key, value|
         if key[0] == row
-          my_hash[row] << (value.render)
+          @cell_rendered_hash[row] << (value.render)
         end
     end
-    my_hash[row].join
+    @cell_rendered_hash[row].join
   end
-  return my_hash
+  end
 
-    # array = []
-    # @cells_hash.each_value do |cell|
-    #   array << cell.render + ' '
-    # end
-    # return array.join
-  end
 end
-
-
