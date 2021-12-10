@@ -1,27 +1,23 @@
 class Board
-  attr_accessor :cells_hash
+  attr_accessor :cells_hash, :rows, :columns
 
-  def initialize()
+  def initialize(rows = 4, columns = 4)
     @cells_hash = cells_hash
+    @rows = rows
+    @columns = columns
   end
 
-  def cells # method that adds cells 4x4
-    @cells_hash = {'A1' => Cell.new("A1"),
-    'A2' => Cell.new("A2"),
-    'A3' => Cell.new("A3"),
-    'A4' => Cell.new("A4"),
-    'B1' => Cell.new("B1"),
-    'B2' => Cell.new("B2"),
-    'B3' => Cell.new("B3"),
-    'B4' => Cell.new("B4"),
-    'C1' => Cell.new("C1"),
-    'C2' => Cell.new("C2"),
-    'C3' => Cell.new("C3"),
-    'C4' => Cell.new("C4"),
-    'D1' => Cell.new("D1"),
-    'D2' => Cell.new("D2"),
-    'D3' => Cell.new("D3"),
-    'D4' => Cell.new("D4") }
+  def cells
+    @cells_hash = {}
+    rows_range = "A"..(("A".ord)+ @rows - 1).chr
+    columns_range = 1..@columns
+    rows_range.each do |letter|
+      columns_range.each do |number|
+      coordinate = letter + number.to_s
+      @cells_hash[coordinate] = Cell.new(coordinate)
+      end
+    end
+    return @cells_hash
   end
 
   def valid_coordinate?(coordinate)
@@ -55,10 +51,36 @@ class Board
     array = array_of_coordinates
     if valid_placement?(ship, array_of_coordinates)
       array.each {|coordinate| @cells_hash[coordinate].place_ship(ship)}
-      return true 
+      return true
     else
       return false
     end
   end
 
+  def render
+    rows_range = "A"..(("A".ord)+ @rows - 1).chr
+    columns_range = 1..@columns
+    header_row = (columns_range).map{|number| number.to_s}
+    return header_row
+    # p columns_range.map {|number| number.to_s}
+  end
+
 end
+
+# method that adds cells 4x4
+# @cells_hash = {'A1' => Cell.new("A1"),
+# 'A2' => Cell.new("A2"),
+# 'A3' => Cell.new("A3"),
+# 'A4' => Cell.new("A4"),
+# 'B1' => Cell.new("B1"),
+# 'B2' => Cell.new("B2"),
+# 'B3' => Cell.new("B3"),
+# 'B4' => Cell.new("B4"),
+# 'C1' => Cell.new("C1"),
+# 'C2' => Cell.new("C2"),
+# 'C3' => Cell.new("C3"),
+# 'C4' => Cell.new("C4"),
+# 'D1' => Cell.new("D1"),
+# 'D2' => Cell.new("D2"),
+# 'D3' => Cell.new("D3"),
+# 'D4' => Cell.new("D4") }

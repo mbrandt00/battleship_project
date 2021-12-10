@@ -12,12 +12,16 @@ RSpec.describe Board do
     @board.cells
   end
 
+  it 'will print letters' do
+    expect(@board.cells_hash["A1"]).to be_instance_of(Cell)
+  end
+
   it 'is an instance of Board' do
     expect(@board).to be_instance_of(Board)
   end
 
-  it 'has a method #cells that will add 16 cells ' do
-    expect(@board.cells.keys.length).to eq(16)
+  it 'has a method #cells that will add expected cells ' do
+    expect(@board.cells_hash.keys.length).to eq(@board.rows * @board.columns)
   end
 
   it 'will test for a valid coordinate' do
@@ -74,7 +78,11 @@ RSpec.describe Board do
   end
 
   it 'will evaluate if ship placements are overlapping' do
-  @board.place(@cruiser, ["A1", "A2", "A3"])
-  expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to be(false)
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to be(false)
+  end
+
+  it 'will render a header' do
+    expect(@board.render).to be(3)
   end
 end
