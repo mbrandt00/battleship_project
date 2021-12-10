@@ -60,11 +60,17 @@ class Board
   def render
     rows_range = "A"..(("A".ord)+ @rows - 1).chr
     columns_range = 1..@columns
-    header_row = (columns_range).map{|number| number.to_s}
-    return header_row
-    # p columns_range.map {|number| number.to_s}
-  end
+    header_row = (columns_range).map{|number| number}
+    step_1 = header_row.join(' ')
+    step_2 = step_1.insert(0," ")
 
+    return step_2.insert(@rows * 2," ")
+
+
+
+
+
+  end
 end
 
 # method that adds cells 4x4
