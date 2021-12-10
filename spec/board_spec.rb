@@ -78,7 +78,11 @@ RSpec.describe Board do
   end
 
   it 'will evaluate if ship placements are overlapping' do
-  @board.place(@cruiser, ["A1", "A2", "A3"])
-  expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to be(false)
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to be(false)
+  end
+
+  it 'will render a header' do
+    expect(@board.render).to be(3)
   end
 end
