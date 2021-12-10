@@ -57,36 +57,17 @@ class Board
     end
   end
 
-  def render
-    rows_range = "A"..(("A".ord)+ @rows - 1).chr
-    columns_range = 1..@columns
+  def render_header
+    rows_range = "A"..(("A".ord)+ rows - 1).chr
+    columns_range = 1..columns
     header_row = (columns_range).map{|number| number}
     step_1 = header_row.join(' ')
     step_2 = step_1.insert(0," ")
+    step_3 = step_2.insert(rows * 2," ")
+  end
 
-    return step_2.insert(@rows * 2," ")
-
-
-
-
-
+  def render_rows
+    rows_range = "A"..(("A".ord)+ rows - 1).chr
+    step_4 = rows_range.each { |x| puts x << "....."}
   end
 end
-
-# method that adds cells 4x4
-# @cells_hash = {'A1' => Cell.new("A1"),
-# 'A2' => Cell.new("A2"),
-# 'A3' => Cell.new("A3"),
-# 'A4' => Cell.new("A4"),
-# 'B1' => Cell.new("B1"),
-# 'B2' => Cell.new("B2"),
-# 'B3' => Cell.new("B3"),
-# 'B4' => Cell.new("B4"),
-# 'C1' => Cell.new("C1"),
-# 'C2' => Cell.new("C2"),
-# 'C3' => Cell.new("C3"),
-# 'C4' => Cell.new("C4"),
-# 'D1' => Cell.new("D1"),
-# 'D2' => Cell.new("D2"),
-# 'D3' => Cell.new("D3"),
-# 'D4' => Cell.new("D4") }
