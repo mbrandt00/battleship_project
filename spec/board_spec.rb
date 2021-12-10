@@ -71,8 +71,6 @@ RSpec.describe Board do
   it 'will place a ship on a passed in array' do
     @board.place(@cruiser, ['A1', 'A2', 'A3'])
     expect(@board.cells_hash['A2'].ship).to eq(@cruiser)
-    #@board.place(@cruiser, ['B1', 'C1', 'D1'])
-    #expect(@board.cells_hash['C1'].ship).to eq(@cruiser)
   end
 
   it 'will evaluate if ship placements are overlapping' do
