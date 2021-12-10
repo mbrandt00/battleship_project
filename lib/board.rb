@@ -57,6 +57,14 @@ class Board
     end
   end
 
+  def render
+    rows_range = "A"..(("A".ord)+ @rows - 1).chr
+    columns_range = 1..@columns
+    header_row = (columns_range).map{|number| number.to_s}
+    return header_row
+    # p columns_range.map {|number| number.to_s}
+  end
+
 end
 
 # method that adds cells 4x4
