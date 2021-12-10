@@ -69,25 +69,14 @@ RSpec.describe Board do
   end
 
   it 'will place a ship on a passed in array' do
-    @board.place(@submarine, ['A1', 'A2'])
-    expect(@board.cells_hash['A2'].ship).to eq(@submarine)
-    @board.place(@cruiser, ['B1', 'C1', 'D1'])
-    expect(@board.cells_hash['C1'].ship).to eq(@cruiser)
-  end
-### Newly added test
-  it 'will assign ship to cells' do
-    cell_1 = @board.cells["A1"]
-    cell_2 = @board.cells["A2"]
-    cell_3 = @board.cells["A3"]
-    cell_1.ship
-    cell_2.ship
-    cell_3.ship
-    expect(cell_3.ship).to eq(cell_2.ship)
+    @board.place(@cruiser, ['A1', 'A2', 'A3'])
+    expect(@board.cells_hash['A2'].ship).to eq(@cruiser)
+    #@board.place(@cruiser, ['B1', 'C1', 'D1'])
+    #expect(@board.cells_hash['C1'].ship).to eq(@cruiser)
   end
 
   it 'will evaluate if ship placements are overlapping' do
-    @board.place(@cruiser, ["A1", "A2", "A3"])
-
+  @board.place(@cruiser, ["A1", "A2", "A3"])
   expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to be(false)
   end
 end
