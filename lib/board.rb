@@ -61,11 +61,16 @@ class Board
     end
   end
 
-  def render
 
-    # print @columns_range.rjust(10)
-    # (1..@columns).map{|number| number.to_s}.join(” “) + ” \n”
-    # return "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
+  def render_header
+    rows_range = "A"..(("A".ord)+ rows - 1).chr
+    columns_range = 1..columns
+    header_row = (columns_range).map{|number| number}
+    step_1 = header_row.join(' ')
+    step_2 = step_1.insert(0," ")
+    step_3 = step_2.insert(rows * 2," ")
+
+  def render
     my_hash = Hash.new {|h,k| h[k] = []}
     @rows_range.each do |row|
       @cells_hash.each do |key, value|
@@ -73,16 +78,9 @@ class Board
           my_hash[row] << (value.render)
         end
     end
-    my_hash[row].join
-  end
-  return my_hash
+    end 
+    return my_hash[row].join
 
-    # array = []
-    # @cells_hash.each_value do |cell|
-    #   array << cell.render + ' '
-    # end
-    # return array.join
   end
 end
-
 
