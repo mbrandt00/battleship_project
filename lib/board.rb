@@ -63,6 +63,7 @@ class Board
   end
 
   def render
+  @cell_rendered_hash = Hash.new {|h,k| h[k] = []} #reset hash
     @rows_range.each do |row|
       @cells_hash.each do |key, value|
         if key[0] == row
@@ -70,8 +71,8 @@ class Board
         end
     end
   end
-  @cell_rendered_hash.each {|key, value| @cell_rendered_hash[key] = value.join('')}
-  return @cell_rendered_hash.each {|k,v| puts "#{k} #{v}"}
+  return @cell_rendered_hash.each {|k,v| puts "#{k} #{v.join('')}"}
   end
+
 
 end
