@@ -66,11 +66,12 @@ class Board
     @rows_range.each do |row|
       @cells_hash.each do |key, value|
         if key[0] == row
-          @cell_rendered_hash[row] << (value.render)
+          @cell_rendered_hash[row] << (value.render) + ' '
         end
     end
-    @cell_rendered_hash[row].join
   end
+  @cell_rendered_hash.each {|key, value| @cell_rendered_hash[key] = value.join('')}
+  return @cell_rendered_hash.each {|k,v| puts "#{k} #{v}"}
   end
 
 end
