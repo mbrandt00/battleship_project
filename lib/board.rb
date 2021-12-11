@@ -1,5 +1,7 @@
 class Board
-  attr_accessor :cells_hash, :rows, :columns
+
+  attr_accessor :cells_hash, :rows, :columns, :rows_range
+
 
   def initialize(rows = 4, columns = 4)
     @cells_hash = cells_hash
@@ -9,10 +11,12 @@ class Board
 
   def cells
     @cells_hash = {}
-    rows_range = "A"..(("A".ord)+ @rows - 1).chr
-    columns_range = 1..@columns
+
+    @rows_range = "A"..(("A".ord)+ @rows - 1).chr
+    @columns_range = 1..@columns
     rows_range.each do |letter|
-      columns_range.each do |number|
+      @columns_range.each do |number|
+
       coordinate = letter + number.to_s
       @cells_hash[coordinate] = Cell.new(coordinate)
       end
@@ -57,6 +61,7 @@ class Board
     end
   end
 
+
   def render_header
     rows_range = "A"..(("A".ord)+ rows - 1).chr
     columns_range = 1..columns
@@ -64,10 +69,18 @@ class Board
     step_1 = header_row.join(' ')
     step_2 = step_1.insert(0," ")
     step_3 = step_2.insert(rows * 2," ")
-  end
 
-  def render_rows
-    rows_range = "A"..(("A".ord)+ rows - 1).chr
-    step_4 = rows_range.each { |x| puts x << "....."}
+  def render
+    my_hash = Hash.new {|h,k| h[k] = []}
+    @rows_range.each do |row|
+      @cells_hash.each do |key, value|
+        if key[0] == row
+          my_hash[row] << (value.render)
+        end
+    end
+    end 
+    return my_hash[row].join
+
   end
 end
+
