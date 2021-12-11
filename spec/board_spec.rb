@@ -83,13 +83,40 @@ RSpec.describe Board do
   end
 
   describe 'render' do
-  it 'have the keys of the hash be equal to the rows' do
-    array = []
-    rows_range = ("A"..(("A".ord)+ @board.rows - 1).chr)
-    rows_range.each {|letter| array.push letter}
+    it 'have the number of keys of the hash be equal to the rows' do
+      array = []
+      rows_range = ("A"..(("A".ord)+ @board.rows - 1).chr)
+      rows_range.each {|letter| array.push letter}
+      @board.render
+      expect(@board.cell_rendered_hash.keys).to eq(array)
+    end
+    it 'will print sunk ship' do
+    @board.place(@submarine, ['A1', 'A2'])
+    @board.cells_hash['A1'].fire_upon
+    @board.cells_hash['A2'].fire_upon
     @board.render
-    expect(@board.cell_rendered_hash.keys).to eq(array)
-  end
-  #it 'will render ships' do
+    expect(@board.cell_rendered_hash['A']).to eq(['X ', 'X ', '. ', '. '])
+    end
+    it 'will print misses' do
+      @board.place(@submarine, ['A1', 'A2'])
+      @board.cells_hash['A3'].fire_upon
+      @board.cells_hash['B4'].fire_upon
+      @board.render
+      expect(@board.cell_rendered_hash['A']).to eq(['S ', 'S ', 'M ', '. '])
+      expect(@board.cell_rendered_hash['B']).to eq(['. ', '. ', '. ', 'M '])
+    end
+
+    it 'will print hits' do
+      @board.place(@submarine, ['A1', 'A2'])
+      @board.cells_hash['A1'].fire_upon
+      @board.cells_hash['B1'].fire_upon
+      @board.render
+      expect(@board.cell_rendered_hash['A']).to eq(['H ', 'S ', '. ', '. '])
+      expect(@board.cell_rendered_hash['B']).to eq(['M ', '. ', '. ', '. '])
+    end
+
+
+
+
   end
 end
