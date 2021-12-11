@@ -24,7 +24,7 @@ RSpec.describe Board do
     expect(@board.cells_hash.keys.length).to eq(@board.rows * @board.columns)
   end
 
-  it 'will test for a valid coordinate' do
+  xit 'will test for a valid coordinate' do
     expect(@board.valid_coordinate?('A1')).to be(true)
     expect(@board.valid_coordinate?('F7')).to be(false)
   end
@@ -51,7 +51,7 @@ RSpec.describe Board do
       expect(@board.valid_placement?(@cruiser, ['A2', 'A3', 'A1'])).to be(false)
     end
 
-    it 'will make sure the cells are valid cells on the board' do
+    xit 'will make sure the cells are valid cells on the board' do
       expect(@board.valid_placement?(@cruiser, ['A3', 'A4', 'A5'])).to be(false)
       expect(@board.valid_placement?(@cruiser, ['A2', 'A3', 'A4'])).to be(true)
     end
@@ -81,6 +81,7 @@ RSpec.describe Board do
     @board.place(@cruiser, ["A1", "A2", "A3"])
     expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to be(false)
   end
+
 
   describe 'render' do
     it 'have the number of keys of the hash be equal to the rows' do
@@ -114,9 +115,5 @@ RSpec.describe Board do
       expect(@board.cell_rendered_hash['A']).to eq(['H ', 'S ', '. ', '. '])
       expect(@board.cell_rendered_hash['B']).to eq(['M ', '. ', '. ', '. '])
     end
-
-
-
-
   end
 end

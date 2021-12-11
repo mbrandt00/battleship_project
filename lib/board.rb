@@ -61,7 +61,17 @@ class Board
       return false
     end
   end
+  
+  def render_header
+    rows_range = "A"..(("A".ord)+ rows - 1).chr
+    columns_range = 1..columns
+    header_row = (columns_range).map{|number| number}
+    step_1 = header_row.join(' ')
+    step_2 = step_1.insert(0," ")
+    step_3 = step_2.insert(rows * 2," ")
+  end 
 
+  
   def render
   @cell_rendered_hash = Hash.new {|h,k| h[k] = []} #reset hash
     @rows_range.each do |row|
@@ -69,10 +79,7 @@ class Board
         if key[0] == row
           @cell_rendered_hash[row] << (value.render) + ' '
         end
+      end
     end
-  end
   return @cell_rendered_hash.each {|k,v| puts "#{k} #{v.join('')}"}
-  end
-
-
-end
+  end 
