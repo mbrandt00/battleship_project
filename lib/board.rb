@@ -1,6 +1,6 @@
 class Board
 
-  attr_accessor :cells_hash, :rows, :columns, :rows_range, :cell_rendered_hash, :columns_range
+  attr_accessor :cells_hash, :rows, :columns, :rows_range, :cell_rendered_hash, :columns_range, :custom_ships_array
 
 
   def initialize(rows = 4, columns = 4)
@@ -10,6 +10,7 @@ class Board
     @cell_rendered_hash = cell_rendered_hash
     @cells_hash = cells_hash
     self.cells #initializes cells when instance is created
+    @custom_ships_array = []
   end
 
   def cells
