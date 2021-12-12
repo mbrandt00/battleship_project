@@ -24,7 +24,7 @@ RSpec.describe Board do
     expect(@board.cells_hash.keys.length).to eq(@board.rows * @board.columns)
   end
 
-  xit 'will test for a valid coordinate' do
+  it 'will test for a valid coordinate' do
     expect(@board.valid_coordinate?('A1')).to be(true)
     expect(@board.valid_coordinate?('F7')).to be(false)
   end
@@ -51,7 +51,7 @@ RSpec.describe Board do
       expect(@board.valid_placement?(@cruiser, ['A2', 'A3', 'A1'])).to be(false)
     end
 
-    xit 'will make sure the cells are valid cells on the board' do
+    it 'will make sure the cells are valid cells on the board' do
       expect(@board.valid_placement?(@cruiser, ['A3', 'A4', 'A5'])).to be(false)
       expect(@board.valid_placement?(@cruiser, ['A2', 'A3', 'A4'])).to be(true)
     end
@@ -102,7 +102,7 @@ RSpec.describe Board do
       @board.place(@submarine, ['A1', 'A2'])
       @board.cells_hash['A3'].fire_upon
       @board.cells_hash['B4'].fire_upon
-      @board.render
+      @board.render(true)
       expect(@board.cell_rendered_hash['A']).to eq(['S ', 'S ', 'M ', '. '])
       expect(@board.cell_rendered_hash['B']).to eq(['. ', '. ', '. ', 'M '])
     end
@@ -111,7 +111,7 @@ RSpec.describe Board do
       @board.place(@submarine, ['A1', 'A2'])
       @board.cells_hash['A1'].fire_upon
       @board.cells_hash['B1'].fire_upon
-      @board.render
+      @board.render(true)
       expect(@board.cell_rendered_hash['A']).to eq(['H ', 'S ', '. ', '. '])
       expect(@board.cell_rendered_hash['B']).to eq(['M ', '. ', '. ', '. '])
     end

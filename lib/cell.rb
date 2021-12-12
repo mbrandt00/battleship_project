@@ -36,14 +36,14 @@ class Cell
     end
   end
 
-  def render
+  def render(argument = nil)
     if empty? && fired_upon?
       @cell_state = 'M'
     elsif fired_upon? && !@ship.sunk?
       @cell_state = 'H'
     elsif fired_upon? && @ship.sunk?
       @cell_state = 'X'
-    elsif !fired_upon? && !empty?
+    elsif !fired_upon? && !empty? && argument== true
       @cell_state = 'S'
     elsif empty? && !fired_upon?
       @cell_state = '.'
