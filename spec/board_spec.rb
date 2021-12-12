@@ -9,7 +9,6 @@ RSpec.describe Board do
     @cruiser=Ship.new("Cruiser", 3)
     @submarine = Ship.new('Submarine', 2)
     @board = Board.new()
-    @board.cells
   end
 
   it 'will print letters' do
@@ -96,15 +95,15 @@ RSpec.describe Board do
     @board.cells_hash['A1'].fire_upon
     @board.cells_hash['A2'].fire_upon
     @board.render
-    expect(@board.cell_rendered_hash['A']).to eq(['X ', 'X ', '. ', '. '])
+    expect(@board.cell_rendered_hash['A']).to eq([' X ', ' X ', ' . ', ' . '])
     end
     it 'will print misses' do
       @board.place(@submarine, ['A1', 'A2'])
       @board.cells_hash['A3'].fire_upon
       @board.cells_hash['B4'].fire_upon
       @board.render(true)
-      expect(@board.cell_rendered_hash['A']).to eq(['S ', 'S ', 'M ', '. '])
-      expect(@board.cell_rendered_hash['B']).to eq(['. ', '. ', '. ', 'M '])
+      expect(@board.cell_rendered_hash['A']).to eq([' S ', ' S ', ' M ', ' . '])
+      expect(@board.cell_rendered_hash['B']).to eq([' . ', ' . ', ' . ', ' M '])
     end
 
     it 'will print hits' do
@@ -112,8 +111,15 @@ RSpec.describe Board do
       @board.cells_hash['A1'].fire_upon
       @board.cells_hash['B1'].fire_upon
       @board.render(true)
-      expect(@board.cell_rendered_hash['A']).to eq(['H ', 'S ', '. ', '. '])
-      expect(@board.cell_rendered_hash['B']).to eq(['M ', '. ', '. ', '. '])
+      expect(@board.cell_rendered_hash['A']).to eq([' H ', ' S ', ' . ', ' . '])
+      expect(@board.cell_rendered_hash['B']).to eq([' M ', ' . ', ' . ', ' . '])
+    end
+
+    it 'will render correctly for boards bigger than 9x9' do
+      @board_1 = Board.new(12, 12)
+      @board_1.place(@submarine, ['A1', 'A2'])
+      @board_1.render(true)
+      expect(@board_1.cell_rendered_hash['A']).to eq([" S ", " S ", " . ", " . ", " . ", " . ", " . ", " . ", " . ", " . ", "  . ", "  . "])
     end
   end
 end
