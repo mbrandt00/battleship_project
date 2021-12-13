@@ -77,18 +77,38 @@ class BattleShip
         @board.place(ship, array_of_coordinates)
 
         @comp_start = @comp_board.cells_hash.to_a.sample(1)
-          # if @comp_start[0][0][1].to_i + ship_length) <= @board.columns && @comp_start[coordinate].ship.class !== Ship
-          #   (ship_length - 1).times do
-          #     array_of_coordinates << @comp_start[0][0]
-          #     @comp_start[0][0][1].to_i += 1
-          #   end
-          # elsif
-          #
-          #   @comp_start[0][0][0].next
 
         until (@comp_start[0][0][1].to_i + ship_length) <= @board.columns || ship_length <= ((("A".ord) + @board.rows - 1) - (@comp_start[0][0][0].to_i))
+
           @comp_start = @comp_board.cells_hash.to_a.sample(1)
         end
+
+        if (@comp_start[0][0][1].to_i + ship_length) <= @board.columns
+          @orientation << "horizontal"
+          (ship_length - 1).times do
+            h_array_of_coordinates << @comp_start[0][0]
+            @comp_start[0][0][1].to_i += 1
+          end
+        end
+
+        if ship_length <= ((("A".ord) + @board.rows - 1) - (@comp_start[0][0][0].to_i))
+          @orientation << "vertical"
+          (ship_length).times do |coordinate|
+            v_array_of_coordinates << @comp_start[0][0]
+            @comp_start[0][0][0].next
+          end
+        end
+
+        @final_orientation = @orientation.sample
+        if @final_orientation.includes? ("horizontal")
+          array_of_coordinates = h_array_of_coordinates
+        else
+          array_of_coordinates = v_array_of_coordiates
+        end
+
+        p array_of_coordinates
+
+
         p @comp_start
         @board.render(true)
       end
