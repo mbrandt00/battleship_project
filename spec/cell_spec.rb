@@ -69,7 +69,7 @@ RSpec.describe Cell do
         @cell.place_ship(@cruiser)
 
         expect(@cell.empty?).to eq(false)
-        expect(@cell.render).to eq('S')
+        expect(@cell.render(true)).to eq('S')
       end
       it 'will recognize if a ship is sunk' do
         @cell.place_ship(@cruiser)
@@ -80,6 +80,12 @@ RSpec.describe Cell do
         expect(@cruiser.sunk?).to eq(true)
         expect(@cell.render). to eq('X')
       end
+
+      it 'will take an argument to see if it should render ships' do
+        @cell.place_ship(@cruiser)
+        expect(@cell.render). to eq('.')
+      end
+
     end
 
 

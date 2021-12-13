@@ -1,13 +1,16 @@
 class Board
 
-  attr_accessor :cells_hash, :rows, :columns, :rows_range, :cell_rendered_hash
+  attr_accessor :cells_hash, :rows, :columns, :rows_range, :cell_rendered_hash, :columns_range, :custom_ships_array
 
 
   def initialize(rows = 4, columns = 4)
     @cells_hash = cells_hash
     @rows = rows
     @columns = columns
-    @cell_rendered_hash = Hash.new {|h,k| h[k] = []}
+    @cell_rendered_hash = cell_rendered_hash
+    @cells_hash = cells_hash
+    self.cells #initializes cells when instance is created
+    @custom_ships_array = []
   end
 
   def cells
@@ -15,7 +18,7 @@ class Board
 
     @rows_range = "A"..(("A".ord)+ @rows - 1).chr
     @columns_range = 1..@columns
-    rows_range.each do |letter|
+    @rows_range.each do |letter|
       @columns_range.each do |number|
 
       coordinate = letter + number.to_s
@@ -61,25 +64,39 @@ class Board
       return false
     end
   end
-  
-  def render_header
-    rows_range = "A"..(("A".ord)+ rows - 1).chr
-    columns_range = 1..columns
-    header_row = (columns_range).map{|number| number}
-    step_1 = header_row.join(' ')
-    step_2 = step_1.insert(0," ")
-    step_3 = step_2.insert(rows * 2," ")
-  end 
 
-  
-  def render
+  def render_header
+    header_row = (@columns_range).map {|number| number}
+    array = []
+    until array.length == header_row.length
+      header_row.each do |number|
+        if number < 10
+          array.push (' ' + number.to_s + ' ')
+        elsif number >= 10
+          array.push(' ' + number.to_s + ' ')
+        end
+      end
+    end
+    array = array.join('')
+    array = array.insert(0, "  ")
+    return array
+  end
+
+
+  def render(argument = nil)
   @cell_rendered_hash = Hash.new {|h,k| h[k] = []} #reset hash
     @rows_range.each do |row|
       @cells_hash.each do |key, value|
         if key[0] == row
-          @cell_rendered_hash[row] << (value.render) + ' '
+          if @cell_rendered_hash[row].length < 10
+          @cell_rendered_hash[row] << (' ' + value.render(argument) + ' ') #3 character element
+          elsif @cell_rendered_hash[row].length >= 10
+            @cell_rendered_hash[row] << '  ' + (value.render(argument)) + ' ' #3 character element
+          end
         end
       end
     end
-  return @cell_rendered_hash.each {|k,v| puts "#{k} #{v.join('')}"}
-  end 
+    puts render_header
+  @cell_rendered_hash.each {|k,v| puts "#{k} #{v.join('')}"}
+  end
+end

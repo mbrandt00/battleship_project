@@ -9,7 +9,6 @@ RSpec.describe Board do
     @cruiser=Ship.new("Cruiser", 3)
     @submarine = Ship.new('Submarine', 2)
     @board = Board.new()
-    @board.cells
   end
 
   it 'will print letters' do
@@ -24,7 +23,7 @@ RSpec.describe Board do
     expect(@board.cells_hash.keys.length).to eq(@board.rows * @board.columns)
   end
 
-  xit 'will test for a valid coordinate' do
+  it 'will test for a valid coordinate' do
     expect(@board.valid_coordinate?('A1')).to be(true)
     expect(@board.valid_coordinate?('F7')).to be(false)
   end
@@ -51,7 +50,7 @@ RSpec.describe Board do
       expect(@board.valid_placement?(@cruiser, ['A2', 'A3', 'A1'])).to be(false)
     end
 
-    xit 'will make sure the cells are valid cells on the board' do
+    it 'will make sure the cells are valid cells on the board' do
       expect(@board.valid_placement?(@cruiser, ['A3', 'A4', 'A5'])).to be(false)
       expect(@board.valid_placement?(@cruiser, ['A2', 'A3', 'A4'])).to be(true)
     end
@@ -96,24 +95,31 @@ RSpec.describe Board do
     @board.cells_hash['A1'].fire_upon
     @board.cells_hash['A2'].fire_upon
     @board.render
-    expect(@board.cell_rendered_hash['A']).to eq(['X ', 'X ', '. ', '. '])
+    expect(@board.cell_rendered_hash['A']).to eq([' X ', ' X ', ' . ', ' . '])
     end
     it 'will print misses' do
       @board.place(@submarine, ['A1', 'A2'])
       @board.cells_hash['A3'].fire_upon
       @board.cells_hash['B4'].fire_upon
-      @board.render
-      expect(@board.cell_rendered_hash['A']).to eq(['S ', 'S ', 'M ', '. '])
-      expect(@board.cell_rendered_hash['B']).to eq(['. ', '. ', '. ', 'M '])
+      @board.render(true)
+      expect(@board.cell_rendered_hash['A']).to eq([' S ', ' S ', ' M ', ' . '])
+      expect(@board.cell_rendered_hash['B']).to eq([' . ', ' . ', ' . ', ' M '])
     end
 
     it 'will print hits' do
       @board.place(@submarine, ['A1', 'A2'])
       @board.cells_hash['A1'].fire_upon
       @board.cells_hash['B1'].fire_upon
-      @board.render
-      expect(@board.cell_rendered_hash['A']).to eq(['H ', 'S ', '. ', '. '])
-      expect(@board.cell_rendered_hash['B']).to eq(['M ', '. ', '. ', '. '])
+      @board.render(true)
+      expect(@board.cell_rendered_hash['A']).to eq([' H ', ' S ', ' . ', ' . '])
+      expect(@board.cell_rendered_hash['B']).to eq([' M ', ' . ', ' . ', ' . '])
+    end
+
+    it 'will render correctly for boards bigger than 9x9' do
+      @board_1 = Board.new(12, 12)
+      @board_1.place(@submarine, ['A1', 'A2'])
+      @board_1.render(true)
+      expect(@board_1.cell_rendered_hash['A']).to eq([" S ", " S ", " . ", " . ", " . ", " . ", " . ", " . ", " . ", " . ", "  . ", "  . "])
     end
   end
 end
