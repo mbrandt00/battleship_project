@@ -121,5 +121,9 @@ RSpec.describe Board do
       @board_1.render(true)
       expect(@board_1.cell_rendered_hash['A']).to eq([" S ", " S ", " . ", " . ", " . ", " . ", " . ", " . ", " . ", " . ", "  . ", "  . "])
     end
+
+    it 'will recognize valid placements for ships' do
+    binding.pry
+  end 
   end
 end

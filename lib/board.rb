@@ -12,7 +12,6 @@ class Board
     self.cells #initializes cells when instance is created
     @custom_ships_array = []
   end
-
   def cells
     @cells_hash = {}
 
@@ -99,4 +98,33 @@ class Board
     puts render_header
   @cell_rendered_hash.each {|k,v| puts "#{k} #{v.join('')}"}
   end
+
+  def vpfs
+    ship_placements = Hash.new {|h,k| h[k] = []} #reset hash
+    ship = Ship.new('cruiser', 2)
+    @cells_hash.each do |key, value|
+    end_coordinate = (key[0]+ (key[1].to_i + ship.length-1).to_s) # horizontal
+      if valid_coordinate?(end_coordinate)
+        ship_placements[ship] << (key + end_coordinate)
+      end
+      starting_coordinate = key[0] #A
+      (ship.length-1).times {
+        starting_coordinate = starting_coordinate.next
+
+
+      }
+      end_coordinate = starting_coordinate + key[1]
+
+      if valid_coordinate?(end_coordinate)
+        ship_placements[ship] << (key + end_coordinate)
+      end
+
+    end
+    return ship_placements
+
+
+  end
+
+
+  # Goal: want {'submarine' => ['A1', 'A2']... }
 end
