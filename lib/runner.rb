@@ -14,7 +14,7 @@ class BattleShip
     puts 'Welcome to BATTLESHIP'
     puts "Enter 'p' to play. Enter 'q' to quit."
     input = gets.chomp
-    if input.eql? 'p'
+    if input.capitalize.eql? 'P'
       puts "How many rows would you like for your battleship board?"
       rows = 0
       while rows <=0
@@ -30,39 +30,47 @@ class BattleShip
       @board = Board.new(rows, columns)
       board.render()
 
-
-    elsif input == 'q'
+    elsif input.capitalize.eql? 'Q'
       puts 'goodbye'
+      exit
     end
     #else
     #  puts "Enter 'p' to play. Enter 'q' to quit."
   end
 
-    def place_custom_ships
-      puts "How many ships would you like to play with on your #{@board.rows} by #{@board.columns} board?"
-      ship_number = gets.chomp.to_i
-      ship_number.times do |ship|
-        puts "What would you like to call the #{ship + 1} ship?"
-        ship_name = gets.chomp
-        puts "How long would you like this ship to be?"
-        ship_length = 0
-        while ship_length <=0
+  def place_custom_ships
+    puts "How many ships would you like to play with on your #{@board.rows} by #{@board.columns} board?"
+    ship_number = gets.chomp.to_i
+    ship_number.times do |ship|
+      # puts "What would you like to call the #{ship + 1} ship?"
+      puts "What would you like to call this ship?"
+      ship_name = gets.chomp
+        # if ship_name.eql? = 'q'
+        #   puts "Good-Bye"
+        #   exit
+        # else
+      puts "How long would you like this ship to be?"
+      ship_length = 0
+        # while ship_length <=0
+        while ship_length <=0 || (ship_length >= (@board.rows + 1) && ship_length >= (@board.columns + 1)) 
           puts 'please enter a number for the length of the ship'
           ship_length = gets.to_i #if string of letters converts to 0
         end
-        ship = Ship.new(ship_name, ship_length)
-        @board.custom_ships_array << ship
-        puts "Where would you like to place this ship? Enter coordinates (seperated by a space without quotes ie: A1 A2)"
-        coordinates = gets.chomp
-        array_of_coordinates = coordinates.split(' ')
+      ship = Ship.new(ship_name, ship_length)
+      @board.custom_ships_array << ship
+        # @board.comp_ships_array << ship
+      puts "Where would you like to place this ship? Enter coordinates (seperated by a space without quotes ie: A1 A2)"
+      coordinates = gets.chomp
+      array_of_coordinates = coordinates.split(' ')
         until @board.valid_placement?(ship, array_of_coordinates) == true
-          puts "Make sure coordinates are consecutive, valid, don't already contain another ship, and is the same length as your ship"
+          puts "Make sure coordinates are consecutive, valid, don't already contain another ship, and are the same length as your ship"
           coordinates = gets.chomp
+          # array_of_coordinates = coordinates.upcase.split(' ')
           array_of_coordinates = coordinates.split(' ')
         end
         @board.place(ship, array_of_coordinates)
         @board.render(true)
-      end
+    end
   end
 
   def main_game()
@@ -70,7 +78,6 @@ class BattleShip
     place_custom_ships
     #computer places ship
   end
-
 end
 
 game = BattleShip.new()
