@@ -5,9 +5,10 @@ require 'pry'
 
 
 class BattleShip
-  attr_accessor :board
+  attr_accessor :board, :comp_start
   def initialize()
     @board = board
+    @comp_start = comp_start
   end
 
   def main_menu
@@ -29,6 +30,7 @@ class BattleShip
       end
       @board = Board.new(rows, columns)
       @comp_board = @board.clone
+
       puts "============= Computer's Board =============="
       @comp_board.render()
       puts " "
@@ -61,7 +63,8 @@ class BattleShip
         end
       ship = Ship.new(ship_name, ship_length)
       @board.custom_ships_array << ship
-        # @board.comp_ships_array << ship
+      @comp_board.custom_ships_array << ship
+
       puts "Where would you like to place this ship? Enter coordinates (seperated by a space without quotes ie: A1 A2)"
       coordinates = gets.chomp
       array_of_coordinates = coordinates.split(' ')
@@ -72,8 +75,15 @@ class BattleShip
           array_of_coordinates = coordinates.split(' ')
         end
         @board.place(ship, array_of_coordinates)
+
+        @comp_start = @comp_board.cells_hash.to_a.sample(1)
+        binding.pry
+        until (@comp_start[0][0][1].to_i + ship_length) <= @board.columns || ship_length <= ((("A".ord) + @rows -1) - (@comp_start[0][0][0].to_i))
+          @comp_start = @comp_board.cells_hash.to_a.sample(1)
+      binding.pry
+        end
         @board.render(true)
-    end
+      end
   end
 
   def main_game()
