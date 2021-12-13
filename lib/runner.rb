@@ -28,6 +28,11 @@ class BattleShip
         columns = gets.to_i
       end
       @board = Board.new(rows, columns)
+      @comp_board = @board.clone
+      puts "============= Computer's Board =============="
+      @comp_board.render()
+      puts " "
+      puts "============= Your Board ================"
       board.render()
 
     elsif input.capitalize.eql? 'Q'
