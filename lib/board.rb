@@ -8,7 +8,7 @@ class Board
     @rows = rows
     @columns = columns
     @cell_rendered_hash = cell_rendered_hash
-    @cells_hash = cells_hash
+    @cells_hash = cells_hash  #duplicate necessary?
     self.cells #initializes cells when instance is created
     @custom_ships_array = []
   end
