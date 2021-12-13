@@ -33,6 +33,8 @@ class BattleShip
     elsif input.capitalize.eql? 'Q'
       puts 'goodbye'
       exit
+    else
+      main_menu()
     end
     #else
     #  puts "Enter 'p' to play. Enter 'q' to quit."
@@ -45,14 +47,10 @@ class BattleShip
       # puts "What would you like to call the #{ship + 1} ship?"
       puts "What would you like to call this ship?"
       ship_name = gets.chomp
-        # if ship_name.eql? = 'q'
-        #   puts "Good-Bye"
-        #   exit
-        # else
       puts "How long would you like this ship to be?"
       ship_length = 0
         # while ship_length <=0
-        while ship_length <=0 || (ship_length >= (@board.rows + 1) && ship_length >= (@board.columns + 1)) 
+        while ship_length <=0 || (ship_length >= (@board.rows + 1) && ship_length >= (@board.columns + 1))
           puts 'please enter a number for the length of the ship'
           ship_length = gets.to_i #if string of letters converts to 0
         end
