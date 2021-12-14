@@ -146,9 +146,14 @@ class BattleShip
 
   def place_custom_ships
     puts "How many ships would you like to play with on your #{@board.rows} by #{@board.columns} board?"
+    puts "Up to 4 total ships are allowed"
     ship_number = gets.chomp.to_i
+    while ship_number <= 0 || ship_number > 4
+      puts "Please enter 1 - 4 of ships"
+      ship_number = gets.chomp.to_i
+    end
     ship_number.times do |ship|
-         puts "What would you like to call the #{ship + 1} ship?"
+         puts "What would you like to call ship number #{ship + 1}?"
          ship_name = gets.chomp
          puts "How long would you like this ship to be?"
          ship_length = 0
