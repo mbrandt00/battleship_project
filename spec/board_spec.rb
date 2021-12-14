@@ -123,6 +123,9 @@ RSpec.describe Board do
     end
 
     it 'will recognize valid placements for ships' do
+      comp_board = Board.new()
+      comp_board.custom_ships_array << [@cruiser, @submarine]
+      comp_board.poss_ship_placements
       binding.pry
     end
   end
