@@ -30,20 +30,21 @@ class Cell
   end
 
   def fire_upon
-    @cell_fired_on = true
     if !empty?
       @ship.hit
     end
+    @cell_fired_on = true
   end
 
   def render(argument = nil)
+
     if empty? && fired_upon?
       @cell_state = 'M'
     elsif fired_upon? && !@ship.sunk?
       @cell_state = 'H'
     elsif fired_upon? && @ship.sunk?
       @cell_state = 'X'
-    elsif !fired_upon? && !empty? && argument== true
+    elsif !fired_upon? && !empty? && argument == true
       @cell_state = 'S'
     elsif empty? && !fired_upon?
       @cell_state = '.'
