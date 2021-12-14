@@ -100,7 +100,7 @@ class Board
   @cell_rendered_hash.each {|k,v| puts "#{k} #{v.join('')}"}
   end
 
-  def vpfs
+  def poss_ship_placements
    @ship_placements = Hash.new {|h,k| h[k] = []} #reset hash
    ship = Ship.new("cruiser", 3)
      @cells_hash.each do |key, value|
