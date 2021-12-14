@@ -90,7 +90,7 @@ class BattleShip
     end
     puts "How many columns would you like for your battleship board?"
     columns = 0
-    while columns== 0 || columns >26
+    while columns== 0 || columns > 26
       puts "please enter a number for the board's columns between 0 and 26"
       columns = gets.to_i
     end
@@ -152,13 +152,14 @@ class BattleShip
       puts "Please enter 1 - 4 of ships"
       ship_number = gets.chomp.to_i
     end
+    @board.render(true)
     ship_number.times do |ship|
          puts "What would you like to call ship number #{ship + 1}?"
          ship_name = gets.chomp
          puts "How long would you like this ship to be?"
          ship_length = 0
-         while ship_length <=0
-           puts 'please enter a number for the length of the ship'
+         until ship_length > 0 && (ship_length < @board.columns || ship_length < @board.rows)
+           puts 'Please re - enter a number for the length of the ship which will fit on the board horizontally or vertically'
            ship_length = gets.to_i #if string of letters converts to 0
          end
          ship = Ship.new(ship_name, ship_length)
