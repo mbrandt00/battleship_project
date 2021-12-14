@@ -123,7 +123,7 @@ RSpec.describe Board do
     end
 
     it 'will recognize valid placements for ships' do
-    binding.pry
-  end 
+      binding.pry
+    end
   end
 end

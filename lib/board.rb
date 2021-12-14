@@ -1,6 +1,7 @@
 class Board
 
-  attr_accessor :cells_hash, :rows, :columns, :rows_range, :cell_rendered_hash, :columns_range, :custom_ships_array, :ship_placements
+  attr_accessor :cells_hash, :rows, :columns, :rows_range,
+                :cell_rendered_hash, :columns_range, :custom_ships_array, :ship_placements
 
 
   def initialize(rows = 4, columns = 4)
@@ -100,6 +101,7 @@ class Board
   @cell_rendered_hash.each {|k,v| puts "#{k} #{v.join('')}"}
   end
 
+
   def poss_ship_placements
    @ship_placements = Hash.new {|h,k| h[k] = []} #reset hash
    ship = Ship.new("cruiser", 3)
@@ -131,5 +133,6 @@ class Board
    end
    return @ship_placements
  end
- # Goal: want {‘submarine’ => [‘A1’, ‘A2’]... }
-end
+end 
+
+
