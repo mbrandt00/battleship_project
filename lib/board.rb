@@ -1,6 +1,7 @@
 class Board
 
-  attr_accessor :cells_hash, :rows, :columns, :rows_range, :cell_rendered_hash, :columns_range, :custom_ships_array
+  attr_accessor :cells_hash, :rows, :columns, :rows_range,
+                :cell_rendered_hash, :columns_range, :custom_ships_array, :ship_placements
 
 
   def initialize(rows = 4, columns = 4)
@@ -11,6 +12,7 @@ class Board
     @cells_hash = cells_hash  #duplicate necessary?
     self.cells #initializes cells when instance is created
     @custom_ships_array = []
+    @ship_placements = ship_placements
   end
   def cells
     @cells_hash = {}
@@ -100,27 +102,35 @@ class Board
   end
 
   def vpfs
-    ship_placements = Hash.new {|h,k| h[k] = []} #reset hash
-    ship = Ship.new('cruiser', 2)
-    @cells_hash.each do |key, value|
-    end_coordinate = (key[0]+ (key[1].to_i + ship.length-1).to_s) # horizontal
-      if valid_coordinate?(end_coordinate)
-        ship_placements[ship] << (key + end_coordinate)
-      end
-      starting_coordinate = key[0] #A
-      (ship.length-1).times {
-        starting_coordinate = starting_coordinate.next
-
-
-      }
-      end_coordinate = starting_coordinate + key[1]
-
-      if valid_coordinate?(end_coordinate)
-        ship_placements[ship] << (key + end_coordinate)
-      end
-
+    @ship_placements = Hash.new {|h,k| h[k] = []} #reset hash
+    ship = Ship.new('cruiser', 3)
+      @cells_hash.each do |key, value|
+      end_coordinate = (key[0]+ (key[1].to_i + ship.length-1).to_s) # horizontal
+      starting_coordinate = key[1]
+      coordinate_array = [key]
+        if valid_coordinate?(end_coordinate)
+          (ship.length-1).times {
+            starting_coordinate = starting_coordinate.next
+            coordinate_array.push (key[0] + starting_coordinate)
+          }
+          @ship_placements[ship] << (coordinate_array)
+        end
+        starting_coordinate = key[0] #A
+        (ship.length-1).times {
+          starting_coordinate = starting_coordinate.next
+        }
+        end_coordinate = starting_coordinate + key[1]
+        starting_coordinate = key[0]
+        coordinate_array = [key]
+        if valid_coordinate?(end_coordinate)
+          (ship.length-1).times {
+            starting_coordinate = starting_coordinate.next
+            coordinate_array.push (starting_coordinate + key[1])
+          }
+          @ship_placements[ship] << (coordinate_array)
+        end
     end
-    return ship_placements
+    return @ship_placements
 
 
   end

@@ -60,7 +60,6 @@ class BattleShip
     puts " "
     puts "============= Your Board ================"
     board.render(true)
-    place_custom_ships
   end
 
   def main_game()
