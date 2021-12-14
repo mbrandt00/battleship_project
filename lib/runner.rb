@@ -25,6 +25,7 @@ class BattleShip
         classic_setup
 
     end
+
     place_computer_boards
     system('clear') # only works on macs
     render_both_boards #currently showing both computer ships
@@ -37,11 +38,15 @@ class BattleShip
   def turn
     puts "Please enter a single cell to fire upon (ex: A1 )"
     selected_cell = gets.upcase.chomp
-    until @board.valid_coordinate?(selected_cell)
-      puts "Please enter a valid cell (ex: A1)."
+    until @comp_board.valid_coordinate?(selected_cell) && @comp_board.cells_hash[selected_cell].fired_upon? == false
+      puts "Please enter a valid cell which hasn't already been fired upon."
       selected_cell = gets.upcase.chomp
     end
-
+    # require 'pry';binding.pry
+    @comp_board.cells_hash[selected_cell].fire_upon
+    @comp_board.custom_ships_array.each do |ship|
+      p ship.health
+    end
     random_computer_shot = @board.cells_hash.keys.sample(1).join #join converts ['A1'] -> 'A1'
     while @board.cells_hash[random_computer_shot].fired_upon?
       random_computer_shot = @board.cells_hash.keys.sample(1).join
@@ -60,15 +65,16 @@ class BattleShip
     puts " "
     puts "============= Your Board ================"
     board.render(true)
-    who_won
   end
 
 
   def who_won?
     computer_won = @board.custom_ships_array.all? {|ship| ship.sunk?}
     person_won = @comp_board.custom_ships_array.all? {|ship| ship.sunk?}
-    if computer_won || person_won
-      computer_won ? 'The computer was cheating with sonar and won' : 'Congratulations! You won!'
+    # if computer_won || person_won
+    if person_won
+      # comput er_won ? 'The computer was cheating with sonar and won' : 'Congratulations! You won!'
+    p "I won"
     else
       false
     end
@@ -185,10 +191,10 @@ class BattleShip
 
   def render_both_boards
     puts "============= Computer's Board =============="
-    @comp_board.render() #for now
+    @comp_board.render(true) #for now
     puts " "
     puts "============= Your Board ================"
-    board.render(true)
+    @board.render(true)
   end
 
 end
