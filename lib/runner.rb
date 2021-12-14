@@ -36,17 +36,23 @@ class BattleShip
 
   def turn
     puts "Please enter a single cell to fire upon (ex: A1 )"
-    selected_cell = gets.chomp
+    selected_cell = gets.upcase.chomp
     until @board.valid_coordinate?(selected_cell)
       puts "Please enter a valid cell (ex: A1)."
-      selected_cell = gets.chomp
+      selected_cell = gets.upcase.chomp
     end
-    @comp_board.cells_hash[selected_cell].fire_upon
+
     random_computer_shot = @board.cells_hash.keys.sample(1).join #join converts ['A1'] -> 'A1'
+    while @board.cells_hash[random_computer_shot].fired_upon?
+      random_computer_shot = @board.cells_hash.keys.sample(1).join
+    end #join converts ['A1'] -> 'A1'
     @board.cells_hash[random_computer_shot].fire_upon #smart shot would go here.
     system('clear') #only works on macs.
     render_both_boards
   end
+
+
+
 
   def end_game
     puts "============= Computer's Board =============="
