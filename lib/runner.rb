@@ -31,8 +31,23 @@ class BattleShip
     render_both_boards #currently showing both computer ships
     until someone_won?
       turn
+
     end
     end_game
+    system('clear')
+    play_again = gets.upcase.chomp
+    until (play_again == 'Y' || play_again == 'N' ) do
+      puts "Enter Y for yes or N for no"
+      play_again = gets.upcase.chomp
+    end
+    if play_again == "Y"
+      system('clear')
+      main_game
+    elsif play_again == "N"
+      p "Good Bye"
+      exit
+    end
+
   end
 
   def turn
@@ -55,7 +70,15 @@ class BattleShip
     system('clear') #only works on macs.
     render_both_boards
 
+    puts "#{selected_cell} was a miss" if @comp_board.cells_hash[selected_cell].cell_state == "M"
+    puts "#{selected_cell} was a hit on the #{@comp_board.cells_hash[selected_cell].ship.name}" if @comp_board.cells_hash[selected_cell].cell_state == "H"
+    puts "You sunk their #{@comp_board.cells_hash[selected_cell].ship.name}" if @comp_board.cells_hash[selected_cell].cell_state == "X"
+
+
   end
+
+
+
 
 
 
@@ -67,6 +90,9 @@ class BattleShip
     puts " "
     puts "============= Your Board ================"
     @board.render(true)
+    p "Would you like to play again? Y for yes or N for no"
+
+
   end
 
   def someone_won?
@@ -76,6 +102,8 @@ class BattleShip
   end
 
   def who_won?
+    computer_won = @board.custom_ships_array.all? {|ship| ship.sunk?}
+    person_won = @comp_board.custom_ships_array.all? {|ship| ship.sunk?}
     if person_won && computer_won
       puts 'Incredible! A tie!'
     elsif computer_won
@@ -110,11 +138,11 @@ class BattleShip
     cruiser = Ship.new('cruiser', 3)
     @board.custom_ships_array << cruiser
     puts "Where would you like to place your 3 cell cruiser? Enter coordinates (seperated by a space without quotes ie: A1 A2 A3)"
-    coordinates = gets.chomp
+    coordinates = gets.upcase.chomp
     array_of_coordinates = coordinates.split(' ')
       until @board.valid_placement?(cruiser, array_of_coordinates) == true
         puts "Make sure coordinates are consecutive, valid, don't already contain another ship, and are the same length as your ship (in this case #{cruiser.length} cells)."
-        coordinates = gets.chomp
+        coordinates = gets.upcase.chomp
         array_of_coordinates = coordinates.split(' ')
       end
     @board.place(cruiser, array_of_coordinates)
@@ -122,11 +150,11 @@ class BattleShip
     puts "Where would you like to place your 2 cell submarine? Enter coordinates (seperated by a space without quotes ie: A1 A2)"
     submarine = Ship.new('submarine', 2)
     @board.custom_ships_array << submarine
-    coordinates = gets.chomp
+    coordinates = gets.upcase.chomp
     array_of_coordinates = coordinates.split(' ')
       until @board.valid_placement?(submarine, array_of_coordinates) == true
         puts "Make sure coordinates are consecutive, valid, don't already contain another ship, and are the same length as your ship (in this case #{submarine.length} cells)."
-        coordinates = gets.chomp
+        coordinates = gets.upcase.chomp
         array_of_coordinates = coordinates.upcase.split(' ')
         array_of_coordinates = coordinates.split(' ')
       end
@@ -135,8 +163,8 @@ class BattleShip
 
   def classic_computer_setup
     @comp_board = Board.new()
-    comp_cruiser = Ship.new('comp cruiser', 3)
-    comp_submarine = Ship.new('comp submarine', 2)
+    comp_cruiser = Ship.new("computer's cruiser", 3)
+    comp_submarine = Ship.new("computer's submarine", 2)
     @comp_board.custom_ships_array << comp_cruiser
     @comp_board.custom_ships_array << comp_submarine
   end
@@ -169,7 +197,7 @@ class BattleShip
          puts "What would you like to call ship number #{ship + 1}?"
          ship_name = gets.chomp
          puts "How long would you like this ship to be?"
-         ship_length = 0
+         ship_length = gets.chomp.to_i
          until ship_length > 0 && (ship_length < @board.columns || ship_length < @board.rows)
            puts 'Please re - enter a number for the length of the ship which will fit on the board horizontally or vertically'
            ship_length = gets.to_i #if string of letters converts to 0
@@ -179,11 +207,11 @@ class BattleShip
          @board.custom_ships_array << ship
          @comp_board.custom_ships_array << comp_ship
          puts "Where would you like to place this ship? Enter coordinates (seperated by a space without quotes ie: A1 A2)"
-         coordinates = gets.chomp
+         coordinates = gets.upcase.chomp
          array_of_coordinates = coordinates.split(' ')
          until @board.valid_placement?(ship, array_of_coordinates) == true
            puts "Make sure coordinates are consecutive, valid, don't already contain another ship, and is the same length as your ship"
-           coordinates = gets.chomp
+           coordinates = gets.upcase.chomp
            array_of_coordinates = coordinates.split(' ')
          end
       @board.place(ship, array_of_coordinates)
@@ -210,7 +238,7 @@ class BattleShip
 
   def render_both_boards
     puts "============= Computer's Board =============="
-    @comp_board.render(true)
+    @comp_board.render
     puts " "
     puts "============= Your Board ================"
     @board.render(true)
