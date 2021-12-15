@@ -25,8 +25,6 @@ class BattleShip
         classic_setup
 
     end
-    @board.custom_ships_array = @board.custom_ships_array.select {|ship| ship.class == Ship}
-    @comp_board.custom_ships_array = @comp_board.custom_ships_array.select {|ship| ship.class == Ship}
     place_computer_boards
     system('clear') # only works on macs
     render_both_boards #currently showing both computer ships
@@ -48,6 +46,7 @@ class BattleShip
     end
     if @comp_board.cells_hash[selected_cell].ship != nil # if ship
       if @comp_board.cells_hash[selected_cell].ship.health > 0
+        binding.pry
         @comp_board.cells_hash[selected_cell].ship.hit
         @comp_board.cells_hash[selected_cell].fire_upon
       end
@@ -62,6 +61,7 @@ class BattleShip
     end
     if @board.cells_hash[random_computer_shot].ship != nil # if ship
       if @board.cells_hash[random_computer_shot].ship.health > 0
+        binding.pry
         @board.cells_hash[random_computer_shot].ship.hit
         @board.cells_hash[random_computer_shot].fire_upon
       end
@@ -70,6 +70,7 @@ class BattleShip
     end
     system('clear') #only works on macs.
     render_both_boards
+
   end
 
 
@@ -128,7 +129,7 @@ class BattleShip
     @board.render()
     # puts "Where would you like to place your 3 cell cruiser? Enter coordinates (seperated by a space without quotes ie: A1 A2)"
     cruiser = Ship.new('cruiser', 3)
-    comp_cruiser = Ship.new('cruiser', 3)
+    comp_cruiser = Ship.new('comp cruiser', 3)
     @comp_board.custom_ships_array << cruiser
     @board.custom_ships_array << comp_cruiser
     # coordinates = gets.chomp
@@ -140,10 +141,11 @@ class BattleShip
         array_of_coordinates = coordinates.split(' ')
       end
     @board.place(cruiser, array_of_coordinates)
+    # @comp_board.(comp_cruiser, array_of_coordinates)
     @board.render(true)
     # puts "Where would you like to place your 2 cell submarine? Enter coordinates (seperated by a space without quotes ie: A1 A2)"
     submarine = Ship.new('submarine', 2)
-    comp_submarine = Ship.new('submarine', 2)
+    comp_submarine = Ship.new('comp submarine', 2)
     @comp_board.custom_ships_array << submarine
     @board.custom_ships_array << comp_submarine
     # coordinates = gets.chomp

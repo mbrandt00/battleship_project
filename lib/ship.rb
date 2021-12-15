@@ -1,3 +1,5 @@
+require 'pry'
+
 class Ship
   attr_accessor :name, :length, :health
   def initialize(name, length)
@@ -12,6 +14,7 @@ class Ship
 
   def hit
     @health -= 1
+    binding.pry
   end
 
 end
