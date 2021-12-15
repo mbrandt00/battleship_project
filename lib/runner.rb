@@ -23,7 +23,6 @@ class BattleShip
         dynamic_setup
       elsif game_type.upcase.eql? 'C'
         classic_setup
-
     end
 
     place_computer_boards
@@ -43,10 +42,11 @@ class BattleShip
       selected_cell = gets.upcase.chomp
     end
     # require 'pry';binding.pry
+    p @comp_board.cells_hash[selected_cell].ship
     @comp_board.cells_hash[selected_cell].fire_upon
-    @comp_board.custom_ships_array.each do |ship|
-      p ship.health
-    end
+    # puts "You hit their #{@comp_board.cells_hash[selected_cell].name}" if @comp_board.cells_hash[selected_cell].render == 'H'
+    p @comp_board.cells_hash[selected_cell].ship
+
     random_computer_shot = @board.cells_hash.keys.sample(1).join #join converts ['A1'] -> 'A1'
     while @board.cells_hash[random_computer_shot].fired_upon?
       random_computer_shot = @board.cells_hash.keys.sample(1).join
@@ -67,7 +67,6 @@ class BattleShip
     board.render(true)
   end
 
-
   def who_won?
     computer_won = @board.custom_ships_array.all? {|ship| ship.sunk?}
     person_won = @comp_board.custom_ships_array.all? {|ship| ship.sunk?}
@@ -79,7 +78,6 @@ class BattleShip
       false
     end
   end
-
 
   def dynamic_setup
     puts "How many rows would you like for your battleship board?"

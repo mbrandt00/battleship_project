@@ -73,7 +73,8 @@ RSpec.describe Cell do
       end
       it 'will recognize if a ship is sunk' do
         @cell.place_ship(@cruiser)
-        @cell.fire_upon
+        # @cell.fire_upon
+        @cruiser.hit
         @cruiser.hit
         @cruiser.hit
         expect(@cell.empty?).to eq(false)

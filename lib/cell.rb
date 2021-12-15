@@ -4,7 +4,7 @@ class Cell
 
   def initialize (coordinate)
     @coordinate = coordinate
-    @ship = ship
+    @ship = nil
     @cell_fired_on = false
     @cell_state = '.'
   end
@@ -27,11 +27,13 @@ class Cell
 
   def fired_upon?
     @cell_fired_on
+
   end
 
   def fire_upon
     if !empty?
       @ship.hit
+  # require 'pry';binding.pry
     end
     @cell_fired_on = true
   end
@@ -43,6 +45,7 @@ class Cell
     elsif fired_upon? && !@ship.sunk?
       @cell_state = 'H'
     elsif fired_upon? && @ship.sunk?
+    # elsif @ship.sunk?
       @cell_state = 'X'
     elsif !fired_upon? && !empty? && argument == true
       @cell_state = 'S'
