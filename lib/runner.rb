@@ -24,13 +24,17 @@ class BattleShip
       elsif game_type.upcase.eql? 'C'
         classic_setup
     end
-
+    @board.custom_ships_array = @board.custom_ships_array.select {|ship| ship.class == Ship}
+    @comp_board.custom_ships_array = @comp_board.custom_ships_array.select {|ship| ship.class == Ship}
     place_computer_boards
     system('clear') # only works on macs
     render_both_boards #currently showing both computer ships
-    until who_won?
+    until someone_won?
       turn
     end
+    puts computer_won = @board.custom_ships_array.all? {|ship| ship.sunk?}
+    puts person_won = @comp_board.custom_ships_array.all? {|ship| ship.sunk?}
+
     end_game
   end
 
@@ -41,17 +45,28 @@ class BattleShip
       puts "Please enter a valid cell which hasn't already been fired upon."
       selected_cell = gets.upcase.chomp
     end
-    # require 'pry';binding.pry
-    p @comp_board.cells_hash[selected_cell].ship
-    @comp_board.cells_hash[selected_cell].fire_upon
-    # puts "You hit their #{@comp_board.cells_hash[selected_cell].name}" if @comp_board.cells_hash[selected_cell].render == 'H'
-    p @comp_board.cells_hash[selected_cell].ship
+    if @comp_board.cells_hash[selected_cell].ship != nil # if ship
+      if @comp_board.cells_hash[selected_cell].ship.health > 0
+        @comp_board.cells_hash[selected_cell].ship.hit
+        @comp_board.cells_hash[selected_cell].fire_upon
+      end
+    elsif @comp_board.cells_hash[selected_cell].ship == nil
+      @comp_board.cells_hash[selected_cell].fire_upon
+    end
+
 
     random_computer_shot = @board.cells_hash.keys.sample(1).join #join converts ['A1'] -> 'A1'
-    while @board.cells_hash[random_computer_shot].fired_upon?
+    until @board.valid_coordinate?(random_computer_shot) && @board.cells_hash[random_computer_shot].fired_upon? == false #this is where it goes wrong
       random_computer_shot = @board.cells_hash.keys.sample(1).join
-    end #join converts ['A1'] -> 'A1'
-    @board.cells_hash[random_computer_shot].fire_upon #smart shot would go here.
+    end
+    if @board.cells_hash[random_computer_shot].ship != nil # if ship
+      if @board.cells_hash[random_computer_shot].ship.health > 0
+        @board.cells_hash[random_computer_shot].ship.hit
+        @board.cells_hash[random_computer_shot].fire_upon
+      end
+    elsif @board.cells_hash[random_computer_shot].ship == nil
+      @board.cells_hash[random_computer_shot].fire_upon
+    end
     system('clear') #only works on macs.
     render_both_boards
   end
@@ -60,6 +75,7 @@ class BattleShip
 
 
   def end_game
+    who_won?
     puts "============= Computer's Board =============="
     @comp_board.render(true) #for now
     puts " "
@@ -67,16 +83,17 @@ class BattleShip
     board.render(true)
   end
 
-  def who_won?
-    computer_won = @board.custom_ships_array.all? {|ship| ship.sunk?}
-    person_won = @comp_board.custom_ships_array.all? {|ship| ship.sunk?}
-    # if computer_won || person_won
-    if person_won
-      # comput er_won ? 'The computer was cheating with sonar and won' : 'Congratulations! You won!'
-    p "I won"
-    else
-      false
-    end
+  # def who_won?
+  #   computer_won = @board.custom_ships_array.all? {|ship| ship.sunk?}
+  #   person_won = @comp_board.custom_ships_array.all? {|ship| ship.sunk?}
+  #   # if computer_won || person_won
+  #   if person_won && computer_won
+  #     puts 'Incredible! A tie!'
+  #   elsif computer_won
+  #     puts "The computer won!"
+  #   elsif person_won
+  #     'Congratulations you won!'
+  #   end
   end
 
   def dynamic_setup
@@ -103,8 +120,9 @@ class BattleShip
     @board.render()
     # puts "Where would you like to place your 3 cell cruiser? Enter coordinates (seperated by a space without quotes ie: A1 A2)"
     cruiser = Ship.new('cruiser', 3)
+    comp_cruiser = Ship.new('cruiser', 3)
     @comp_board.custom_ships_array << cruiser
-    @board.custom_ships_array << cruiser
+    @board.custom_ships_array << comp_cruiser
     # coordinates = gets.chomp
     coordinates = "A1 A2 A3"
     array_of_coordinates = coordinates.split(' ')
@@ -117,8 +135,9 @@ class BattleShip
     @board.render(true)
     # puts "Where would you like to place your 2 cell submarine? Enter coordinates (seperated by a space without quotes ie: A1 A2)"
     submarine = Ship.new('submarine', 2)
+    comp_submarine = Ship.new('submarine', 2)
     @comp_board.custom_ships_array << submarine
-    @board.custom_ships_array << submarine
+    @board.custom_ships_array << comp_submarine
     # coordinates = gets.chomp
     coordinates = "D1 D2"
     array_of_coordinates = coordinates.split(' ')
@@ -195,7 +214,7 @@ class BattleShip
 
   def render_both_boards
     puts "============= Computer's Board =============="
-    @comp_board.render(true) #for now
+    @comp_board.render(true)
     puts " "
     puts "============= Your Board ================"
     @board.render(true)

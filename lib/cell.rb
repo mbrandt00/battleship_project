@@ -31,10 +31,6 @@ class Cell
   end
 
   def fire_upon
-    if !empty?
-      @ship.hit
-  # require 'pry';binding.pry
-    end
     @cell_fired_on = true
   end
 
