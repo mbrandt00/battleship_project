@@ -42,28 +42,16 @@ class BattleShip
       puts "Please enter a valid cell which hasn't already been fired upon."
       selected_cell = gets.upcase.chomp
     end
-    if @comp_board.cells_hash[selected_cell].ship != nil # if ship
-      if @comp_board.cells_hash[selected_cell].ship.health > 0
-        @comp_board.cells_hash[selected_cell].ship.hit
-        @comp_board.cells_hash[selected_cell].fire_upon
-      end
-    elsif @comp_board.cells_hash[selected_cell].ship == nil
-      @comp_board.cells_hash[selected_cell].fire_upon
-    end
+    @comp_board.cells_hash[selected_cell].fire_upon
+
 
 
     random_computer_shot = @board.cells_hash.keys.sample(1).join #join converts ['A1'] -> 'A1'
     until @board.valid_coordinate?(random_computer_shot) && @board.cells_hash[random_computer_shot].fired_upon? == false #this is where it goes wrong
       random_computer_shot = @board.cells_hash.keys.sample(1).join
     end
-    if @board.cells_hash[random_computer_shot].ship != nil # if ship
-      if @board.cells_hash[random_computer_shot].ship.health > 0
-        @board.cells_hash[random_computer_shot].ship.hit
-        @board.cells_hash[random_computer_shot].fire_upon
-      end
-    elsif @board.cells_hash[random_computer_shot].ship == nil
-      @board.cells_hash[random_computer_shot].fire_upon
-    end
+    @board.cells_hash[random_computer_shot].fire_upon
+
     system('clear') #only works on macs.
     render_both_boards
 
@@ -78,7 +66,7 @@ class BattleShip
     @comp_board.render(true) #for now
     puts " "
     puts "============= Your Board ================"
-    board.render(true)
+    @board.render(true)
   end
 
   def someone_won?
@@ -88,15 +76,12 @@ class BattleShip
   end
 
   def who_won?
-    computer_won = @board.custom_ships_array.all? {|ship| ship.sunk?}
-    person_won = @comp_board.custom_ships_array.all? {|ship| ship.sunk?}
-    # if computer_won || person_won
     if person_won && computer_won
       puts 'Incredible! A tie!'
     elsif computer_won
       puts "The computer won!"
     elsif person_won
-      'Congratulations you won!'
+      puts 'Congratulations you won!'
     end
   end
 
@@ -237,13 +222,5 @@ game = BattleShip.new()
 game.main_game
 
 # -------- Current Bugs----------------------
-# still to do modify ship_length to not exceed board limits
-# not fire upon cell that is already fired upon
-# sunk? needs fixing. If (2) is fixed it should resolve. Right now sunk? is true if health == 0
-# clear for windows?
-
-# --------Ideas-----------
-
-# You sunk ship.name...
-# play again?
-# Smart computer?
+# who won fix
+# feedback

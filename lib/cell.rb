@@ -31,10 +31,12 @@ class Cell
 
   def fire_upon
     @cell_fired_on = true
+    if self.ship != nil
+      @ship.hit
+    end
   end
 
   def render(argument = nil)
-
     if empty? && fired_upon?
       @cell_state = 'M'
     elsif fired_upon? && !@ship.sunk?
