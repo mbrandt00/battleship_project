@@ -23,17 +23,15 @@ class BattleShip
         dynamic_setup
       elsif game_type.upcase.eql? 'C'
         classic_setup
+        classic_computer_setup
 
     end
-    place_computer_boards
+    place_computer_ships
     system('clear') # only works on macs
     render_both_boards #currently showing both computer ships
     until someone_won?
       turn
     end
-    puts computer_won = @board.custom_ships_array.all? {|ship| ship.sunk?}
-    puts person_won = @comp_board.custom_ships_array.all? {|ship| ship.sunk?}
-
     end_game
   end
 
@@ -46,7 +44,6 @@ class BattleShip
     end
     if @comp_board.cells_hash[selected_cell].ship != nil # if ship
       if @comp_board.cells_hash[selected_cell].ship.health > 0
-        binding.pry
         @comp_board.cells_hash[selected_cell].ship.hit
         @comp_board.cells_hash[selected_cell].fire_upon
       end
@@ -61,7 +58,6 @@ class BattleShip
     end
     if @board.cells_hash[random_computer_shot].ship != nil # if ship
       if @board.cells_hash[random_computer_shot].ship.health > 0
-        binding.pry
         @board.cells_hash[random_computer_shot].ship.hit
         @board.cells_hash[random_computer_shot].fire_upon
       end
@@ -125,15 +121,11 @@ class BattleShip
 
   def classic_setup
     @board = Board.new(4,4)
-    @comp_board = Board.new()
     @board.render()
-    # puts "Where would you like to place your 3 cell cruiser? Enter coordinates (seperated by a space without quotes ie: A1 A2)"
     cruiser = Ship.new('cruiser', 3)
-    comp_cruiser = Ship.new('comp cruiser', 3)
-    @comp_board.custom_ships_array << cruiser
-    @board.custom_ships_array << comp_cruiser
-    # coordinates = gets.chomp
-    coordinates = "A1 A2 A3"
+    @board.custom_ships_array << cruiser
+    puts "Where would you like to place your 3 cell cruiser? Enter coordinates (seperated by a space without quotes ie: A1 A2 A3)"
+    coordinates = gets.chomp
     array_of_coordinates = coordinates.split(' ')
       until @board.valid_placement?(cruiser, array_of_coordinates) == true
         puts "Make sure coordinates are consecutive, valid, don't already contain another ship, and are the same length as your ship (in this case #{cruiser.length} cells)."
@@ -141,26 +133,34 @@ class BattleShip
         array_of_coordinates = coordinates.split(' ')
       end
     @board.place(cruiser, array_of_coordinates)
-    # @comp_board.(comp_cruiser, array_of_coordinates)
     @board.render(true)
-    # puts "Where would you like to place your 2 cell submarine? Enter coordinates (seperated by a space without quotes ie: A1 A2)"
+    puts "Where would you like to place your 2 cell submarine? Enter coordinates (seperated by a space without quotes ie: A1 A2)"
     submarine = Ship.new('submarine', 2)
-    comp_submarine = Ship.new('comp submarine', 2)
-    @comp_board.custom_ships_array << submarine
-    @board.custom_ships_array << comp_submarine
-    # coordinates = gets.chomp
-    coordinates = "D1 D2"
+    @board.custom_ships_array << submarine
+    coordinates = gets.chomp
     array_of_coordinates = coordinates.split(' ')
       until @board.valid_placement?(submarine, array_of_coordinates) == true
-        puts "Make sure coordinates are consecutive, valid, don't already contain another ship, and are the same length as your ship (in this case #{cruiser.length} cells)."
+        puts "Make sure coordinates are consecutive, valid, don't already contain another ship, and are the same length as your ship (in this case #{submarine.length} cells)."
         coordinates = gets.chomp
         array_of_coordinates = coordinates.upcase.split(' ')
         array_of_coordinates = coordinates.split(' ')
       end
-      @board.place(submarine, array_of_coordinates)
+    @board.place(submarine, array_of_coordinates)
   end
 
-  def place_computer_boards
+  def classic_computer_setup
+    @comp_board = Board.new()
+    comp_cruiser = Ship.new('comp cruiser', 3)
+    comp_submarine = Ship.new('comp submarine', 2)
+    @comp_board.custom_ships_array << comp_cruiser
+    @comp_board.custom_ships_array << comp_submarine
+  end
+
+
+
+
+
+  def place_computer_ships
     @comp_board.poss_ship_placements # computer ships
     @comp_board.custom_ships_array.each do |ship|
     random_sample = @comp_board.ship_placements[ship].sample(1).first
@@ -190,8 +190,9 @@ class BattleShip
            ship_length = gets.to_i #if string of letters converts to 0
          end
          ship = Ship.new(ship_name, ship_length)
+         comp_ship = Ship.new(ship_name, ship_length)
          @board.custom_ships_array << ship
-         @comp_board.custom_ships_array << ship
+         @comp_board.custom_ships_array << comp_ship
          puts "Where would you like to place this ship? Enter coordinates (seperated by a space without quotes ie: A1 A2)"
          coordinates = gets.chomp
          array_of_coordinates = coordinates.split(' ')
