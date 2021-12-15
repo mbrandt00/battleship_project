@@ -104,35 +104,34 @@ class Board
 
   def poss_ship_placements
    @ship_placements = Hash.new {|h,k| h[k] = []} #reset hash
-   ship = Ship.new("cruiser", 3)
-     @cells_hash.each do |key, value|
-     end_coordinate = (key[0]+ (key[1].to_i + ship.length-1).to_s) # horizontal
-     starting_coordinate = key[1]
-     coordinate_array = [key]
-       if valid_coordinate?(end_coordinate)
-         (ship.length-1).times {
-           starting_coordinate = starting_coordinate.next
-           coordinate_array.push (key[0] + starting_coordinate)
-         }
-         @ship_placements[ship] << (coordinate_array)
-       end
-       starting_coordinate = key[0] #A
-       (ship.length-1).times {
-         starting_coordinate = starting_coordinate.next
-       }
-       end_coordinate = starting_coordinate + key[1]
-       starting_coordinate = key[0]
+     @custom_ships_array.each do |ship| #nested array so two loops required.
+       @cells_hash.each do |key, value|
+       end_coordinate = (key[0]+ (key[1].to_i + ship.length-1).to_s) # horizontal
+       starting_coordinate = key[1]
        coordinate_array = [key]
-       if valid_coordinate?(end_coordinate)
+         if valid_coordinate?(end_coordinate)
+           (ship.length-1).times {
+             starting_coordinate = starting_coordinate.next
+             coordinate_array.push (key[0] + starting_coordinate)
+           }
+           @ship_placements[ship] << (coordinate_array)
+         end
+         starting_coordinate = key[0] #A
          (ship.length-1).times {
            starting_coordinate = starting_coordinate.next
-           coordinate_array.push (starting_coordinate + key[1])
          }
-         @ship_placements[ship] << (coordinate_array)
+         end_coordinate = starting_coordinate + key[1]
+         starting_coordinate = key[0]
+         coordinate_array = [key]
+         if valid_coordinate?(end_coordinate)
+           (ship.length-1).times {
+             starting_coordinate = starting_coordinate.next
+             coordinate_array.push (starting_coordinate + key[1])
+           }
+           @ship_placements[ship] << (coordinate_array)
+         end
        end
-   end
+     end
    return @ship_placements
- end
-end 
-
-
+  end
+end

@@ -1,3 +1,5 @@
+require 'pry'
+
 class Ship
   attr_accessor :name, :length, :health
   def initialize(name, length)
@@ -11,7 +13,7 @@ class Ship
   end
 
   def hit
-    @health = @health -1
+    @health -= 1
   end
 
 end
