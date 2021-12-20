@@ -1,12 +1,13 @@
-require './lib/ship'
+# frozen_string_literal: true
 
+require './lib/ship'
 
 RSpec.describe Ship do
   before(:each) do
-    @cruiser = Ship.new("Cruiser", 3)
+    @cruiser = Ship.new('Cruiser', 3)
   end
   it 'it is an instance of Ship' do
-  expect(@cruiser).to be_instance_of(Ship)
+    expect(@cruiser).to be_instance_of(Ship)
   end
 
   it 'has a name' do
@@ -42,9 +43,4 @@ RSpec.describe Ship do
     end
     expect(@cruiser.sunk?).to be(true)
   end
-
-
-
-
-
 end

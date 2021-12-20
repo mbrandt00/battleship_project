@@ -1,20 +1,19 @@
+# frozen_string_literal: true
+
+# Cell class that can hold ships or nil
 class Cell
   attr_reader :coordinate
   attr_accessor :ship, :cell_state, :cell_fired_on
 
-  def initialize (coordinate)
+  def initialize(coordinate)
     @coordinate = coordinate
     @ship = nil
     @cell_fired_on = false
     @cell_state = '.'
   end
 
-  def ship
-    @ship
-  end
-
   def empty?
-    if @ship == nil
+    if @ship.nil?
       true
     else
       false
@@ -31,9 +30,7 @@ class Cell
 
   def fire_upon
     @cell_fired_on = true
-    if self.ship != nil
-      @ship.hit
-    end
+    @ship.hit unless ship.nil?
   end
 
   def render(argument = nil)
@@ -48,7 +45,6 @@ class Cell
     elsif empty? && !fired_upon?
       @cell_state = '.'
     end
-    return @cell_state
+    @cell_state
   end
-
 end
